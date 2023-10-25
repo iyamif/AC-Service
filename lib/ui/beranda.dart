@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:teknisi/ui/utils.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:teknisi/ui/order.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -16,46 +18,27 @@ class _BerandaState extends State<Beranda> {
 
   final List<Widget> _pages = [
     FirstPage(),
-    SecondPage(),
     ThirdPage(),
+    SecondPage(),
     FourPage(),
   ];
 
+  Future<void> _order() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Order(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Membuat objek MediaQuery
     MediaQueryData mediaQueryData = MediaQuery.of(context);
 
-    // Mengambil lebar layar perangkat
     double screenWidth = mediaQueryData.size.width;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Center(
-      //     child: Text(
-      //       'Teknisi AC',
-      //       style: SafeGoogleFont(
-      //         'Inter',
-      //         fontSize: 20 * ffem,
-      //         fontWeight: FontWeight.w700,
-      //         height: 1.3 * ffem / fem,
-      //         color: const Color.fromARGB(255, 5, 5, 5),
-      //       ),
-      //     ),
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.notifications,
-      //           color: Color.fromARGB(255, 9, 31, 110)),
-      //       color: const Color.fromARGB(255, 0, 0, 0), // Ikon lonceng
-      //       onPressed: () {
-      //         // Aksi yang ingin dijalankan saat tombol lonceng ditekan
-      //       },
-      //     ),
-      //   ],
-      //   backgroundColor: const Color.fromARGB(255, 237, 237, 237),
-      //   iconTheme: const IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),
-      // ),
       body: _pages[_currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
         index: _currentIndex,
@@ -63,7 +46,7 @@ class _BerandaState extends State<Beranda> {
         items: <Widget>[
           const Icon(Icons.home, size: 30),
           const Icon(Icons.search, size: 30),
-          const Icon(Icons.settings, size: 30),
+          const Icon(Icons.notifications, size: 30),
           const Icon(
             Icons.account_circle,
             size: 30,
@@ -87,517 +70,658 @@ class _BerandaState extends State<Beranda> {
 class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    Future<void> _order() async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Order(),
+        ),
+      );
+    }
+
+    // Mengambil lebar layar perangkat
+    double screenWidth = mediaQueryData.size.width;
     return Scaffold(
       body: SingleChildScrollView(
-        //  width: double.infinity,
-        child: Column(
-          children: [
-            // Align(
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     'Hello, Iyamif!',
-            //     style: TextStyle(fontSize: 30),
-            //   ),
-            // ),
-            Container(
-              decoration: const BoxDecoration(),
-              child: // Carousel
-                  CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0, // Atur tinggi carousel sesuai kebutuhan
-                ),
-                items: [
-                  Image.network(
-                      'https://media.pricebook.co.id/article/5e5e294ab92c2e49128b456b/5e5e294ab92c2e49128b456b_1638247494.jpg',
-                      fit: BoxFit.cover),
-                  Image.network(
-                      'https://images.unsplash.com/photo-1574217013471-c32c6846cef7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm90b3xlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80',
-                      fit: BoxFit.cover),
-                  Image.network(
-                      'https://3.bp.blogspot.com/-HlKo1DSjY-U/V5_HowL6W3I/AAAAAAAAGfE/UOTItuyovjoMlvElSgV4mOSdSabm7N71gCLcB/s1600/service%2Bac%2Bbeji%2Bdepok.jpg',
-                      fit: BoxFit.cover),
-                ],
-              ),
-            ),
-            const SizedBox(height: 9.0),
-            Container(
-              width: 390,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+            child: Container(
+              // color: Colors.white,
+              width: screenWidth * 1,
+              child: Column(
                 children: [
-                  Container(
-                    //   color: Color.fromARGB(255, 237, 240, 242),
-                    //   padding: EdgeInsets.all(5.0),
-                    width: 160,
-                    child: const Text(
-                      'Bidang Jasa',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  // Container(
-                  //   //   color: Color.fromARGB(255, 237, 240, 242),
-                  //   //   padding: EdgeInsets.all(5.0),
-                  //   width: 160,
-                  //   child: Text(
-                  //     'urutkan',
-                  //     textAlign: TextAlign.right,
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 9.0),
-            Card(
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: Color.fromARGB(255, 237, 240, 242),
-                    width: 1.0), // Atur warna dan lebar garis luar (outline)
-                borderRadius: BorderRadius.circular(10.0), // Atur radius sudut
-              ),
-              child: Container(
-                width: 380,
-                height: 90,
-                child: Align(
-                  //alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.favorite,
-                                color: Color.fromARGB(255, 9, 31, 110)),
-                            onPressed: () {
-                              // Tindakan yang akan diambil ketika tombol ditekan.
-                            },
-                          ),
-                          const Text(
-                            'Perawat AC',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                      Container(
+                        width: screenWidth * 0.13,
+                        //  decoration: BoxDecoration(border: Border.all()),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey,
+                        ),
                       ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.share,
-                                color: Color.fromARGB(255, 9, 31, 110)),
-                            onPressed: () {
-                              // Tindakan yang akan diambil ketika tombol ditekan.
-                            },
-                          ),
-                          const Text(
-                            'Perawatan',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            'dan isi freon',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.access_alarms_outlined,
-                                color: Color.fromARGB(255, 9, 31, 110)),
-                            onPressed: () {
-                              // Tindakan yang akan diambil ketika tombol ditekan.
-                            },
-                          ),
-                          const Text(
-                            'Pemasangan',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            'AC',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.airplay_outlined,
-                                color: Color.fromARGB(255, 9, 31, 110)),
-                            onPressed: () {
-                              // Tindakan yang akan diambil ketika tombol ditekan.
-                            },
-                          ),
-                          const Text(
-                            'Bongkar',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            'Pasang AC',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          )
-                        ],
+                      Container(
+                          width: screenWidth * 0.6,
+                          //  decoration: BoxDecoration(border: Border.all()),
+                          child: Text(
+                            'HI, Iyamif !',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.notifications_none_rounded,
+                          color: Color.fromARGB(255, 9, 31, 110),
+                          size: 30,
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 9.0),
-            SizedBox(
-              width: 370,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    //   color: Color.fromARGB(255, 237, 240, 242),
-                    //   padding: EdgeInsets.all(5.0),
-                    width: 160,
-                    child: const Text(
-                      'Status order',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    //   color: Color.fromARGB(255, 237, 240, 242),
-                    //   padding: EdgeInsets.all(5.0),
-                    width: 140,
-                    child: Text(
-                      'urutkan',
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              //    color: Color.fromARGB(255, 223, 222, 222),
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  //  width: 2.0,
-                ), // Atur warna dan lebar garis luar (outline)
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Container(
-                  width: 380,
-                  height: 245,
-                  padding: const EdgeInsets.fromLTRB(3, 0, 1, 0),
-                  // decoration: const BoxDecoration(
-                  //   color: Colors.white,
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8),
+                  //   child: Container(
+                  //     width: screenWidth * 0.9,
+                  //     height: 50,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(14),
+                  //       color: Color.fromARGB(255, 255, 255, 255),
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(
+                  //           top: 8, bottom: 8, left: 4, right: 4),
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: [
+                  //           Container(
+                  //             width: 200,
+                  //             // decoration: BoxDecoration(border: Border.all()),
+                  //             child: TextField(
+                  //               decoration: InputDecoration(
+                  //                   border: OutlineInputBorder(
+                  //                       borderSide: BorderSide.none)),
+                  //             ),
+                  //           ),
+                  //           Container(
+                  //               alignment: Alignment.center,
+                  //               width: 50,
+                  //               height: 60,
+                  //               child: OutlinedButton(
+                  //                 // color: Colors.red,
+                  //                 style: ButtonStyle(
+                  //                   side: MaterialStateProperty.all(
+                  //                       BorderSide.none),
+                  //                 ),
+                  //                 onPressed: () {},
+                  //                 child: Icon(
+                  //                   Icons.search,
+                  //                   color: Colors.black,
+                  //                 ),
+                  //               ))
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     //   color: const Color.fromARGB(255, 220, 220, 220),
+                  //   ),
                   // ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Container(
+                      width: screenWidth * 0.9,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        //   border: Border.all(width: 1.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(
+                                255, 240, 237, 237), // Warna bayangan
+                            offset: Offset(0,
+                                1), // Perpindahan bayangan horizontal dan vertikal
+                            blurRadius: 3, // Radius blur bayangan
+                            spreadRadius: 1, // Sebaran bayangan
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: ImageSlideshow(
+                          //   width: double.infinity,
+
+                          /// Height of the [ImageSlideshow].
+                          height: 200,
+
+                          /// The page to show when first creating the [ImageSlideshow].
+                          initialPage: 0,
+
+                          /// The color to paint the indicator.
+                          indicatorColor: Colors.blue,
+
+                          /// The color to paint behind th indicator.
+                          indicatorBackgroundColor: Colors.grey,
                           children: [
-                            Container(
-                              width: 150,
-                              padding: const EdgeInsets.all(8),
-                              // decoration: BoxDecoration(
-                              //   //  border: Border.all(color: Colors.black, width: 0.5),
-                              //   borderRadius: BorderRadius.circular(5.0),
-                              //   color: Color.fromARGB(255, 250, 249, 249),
-                              // ),
-                              child: Text(
-                                'ADI JAYA SERVICE',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 85, 85, 85)),
+                            Image.network(
+                                'https://media.pricebook.co.id/article/5e5e294ab92c2e49128b456b/5e5e294ab92c2e49128b456b_1638247494.jpg',
+                                fit: BoxFit.cover),
+                            Image.network(
+                                'https://media.pricebook.co.id/article/5e5e294ab92c2e49128b456b/5e5e294ab92c2e49128b456b_1638247494.jpg',
+                                fit: BoxFit.cover),
+                            Image.network(
+                                'https://media.pricebook.co.id/article/5e5e294ab92c2e49128b456b/5e5e294ab92c2e49128b456b_1638247494.jpg',
+                                fit: BoxFit.cover),
+                          ],
+                          onPageChanged: (value) {
+                            print('Page changed: $value');
+                          },
+
+                          /// Auto scroll interval.
+                          /// Do not auto scroll with null or 0.
+                          autoPlayInterval: 30000,
+
+                          /// Loops back to first slide.
+                          isLoop: false,
+                        ),
+                      ),
+                      //   color: const Color.fromARGB(255, 220, 220, 220),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Status Order',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    //    color: Color.fromARGB(255, 223, 222, 222),
+                    elevation: 4,
+                    color: Color.fromARGB(255, 23, 0, 136),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 2, 46, 122),
+                        //  width: 2.0,
+                      ), // Atur warna dan lebar garis luar (outline)
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Container(
+                        width: 380,
+                        height: 100,
+                        padding: const EdgeInsets.fromLTRB(3, 0, 1, 0),
+                        // decoration: const BoxDecoration(
+                        //   color: Colors.white,
+                        // ),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 150,
+                                    padding: const EdgeInsets.all(8),
+                                    // decoration: BoxDecoration(
+                                    //   //  border: Border.all(color: Colors.black, width: 0.5),
+                                    //   borderRadius: BorderRadius.circular(5.0),
+                                    //   color: Color.fromARGB(255, 250, 249, 249),
+                                    // ),
+                                    child: Text(
+                                      'ADI JAYA SERVICE',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.verified,
+                                    size: 20,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  )
+                                ],
                               ),
                             ),
-                            Icon(
-                              Icons.verified,
-                              size: 20,
-                              color: Color.fromARGB(255, 68, 16, 152),
-                            )
+                            Divider(color: Color.fromARGB(255, 168, 168, 168)),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Container(
+                            //       padding: const EdgeInsets.all(5),
+                            //       decoration: BoxDecoration(
+                            //         //  border: Border.all(color: Colors.black),
+                            //         borderRadius: BorderRadius.circular(5.0),
+                            //       ),
+                            //       child: const Center(
+                            //         child: Text(
+                            //           'Tanggal Order :',
+                            //           style: TextStyle(
+                            //               fontSize: 15,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       padding: const EdgeInsets.all(5),
+                            //       decoration: BoxDecoration(
+                            //         // border:
+                            //         //     Border.all(color: Colors.black, width: 0.5),
+                            //         borderRadius: BorderRadius.circular(3.0),
+                            //       ),
+                            //       child: const Center(
+                            //         child: Text(
+                            //           '24 Desember 2023',
+                            //           style: TextStyle(
+                            //               fontSize: 15,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Container(
+                            //       padding: const EdgeInsets.all(8),
+                            //       decoration: BoxDecoration(
+                            //         //  border: Border.all(color: Colors.black, width: 1.0),
+                            //         borderRadius: BorderRadius.circular(3.0),
+                            //       ),
+                            //       child: const Center(
+                            //         child: Text(
+                            //           'Jam Order :',
+                            //           style: TextStyle(
+                            //               fontSize: 15,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       padding: const EdgeInsets.all(8),
+                            //       decoration: BoxDecoration(
+                            //         //  border: Border.all(color: Colors.black, width: 1.0),
+                            //         borderRadius: BorderRadius.circular(3.0),
+                            //       ),
+                            //       child: const Center(
+                            //         child: Text(
+                            //           '12:00 WIB',
+                            //           style: TextStyle(
+                            //               fontSize: 15,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Container(
+                            //       padding: const EdgeInsets.all(8),
+                            //       decoration: BoxDecoration(
+                            //         //  border: Border.all(color: Colors.black, width: 1.0),
+                            //         borderRadius: BorderRadius.circular(3.0),
+                            //       ),
+                            //       child: const Center(
+                            //         child: Text(
+                            //           'Tipe Service :',
+                            //           style: TextStyle(
+                            //               fontSize: 15,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       padding: const EdgeInsets.all(8),
+                            //       decoration: BoxDecoration(
+                            //         //  border: Border.all(color: Colors.black, width: 1.0),
+                            //         borderRadius: BorderRadius.circular(3.0),
+                            //       ),
+                            //       child: const Center(
+                            //         child: Text(
+                            //           'Perawatan AC',
+                            //           style: TextStyle(
+                            //               fontSize: 15,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Center(
+                            //   child: Container(
+                            //     padding: const EdgeInsets.all(8),
+                            //     decoration: BoxDecoration(
+                            //       // border: Border.all(
+                            //       //     color: const Color.fromARGB(131, 131, 131, 131),
+                            //       //     width: 0.5),
+                            //       borderRadius: BorderRadius.circular(3.0),
+                            //       color: Color.fromARGB(255, 68, 16, 152),
+                            //     ),
+                            //     child: const Center(
+                            //       child: Row(
+                            //         children: [
+                            //           Icon(
+                            //             Icons.map_sharp,
+                            //             color: Color.fromARGB(255, 255, 255, 255),
+                            //             size: 15.0,
+                            //           ),
+                            //           SizedBox(
+                            //             width: 30.0,
+                            //           ),
+                            //           Center(
+                            //             child: Text(
+                            //               'Jl. Cikoko Timur no.2 Jakarta selatan',
+                            //               style: TextStyle(
+                            //                   fontSize: 15, color: Colors.white),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            // Divider(
+                            //   color: const Color.fromARGB(255, 142, 142, 142),
+                            //   thickness: 0.5,
+                            // ),
+                            // SizedBox(
+                            //   height: 6.0,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text('Status order'),
+                            //     ElevatedButton(
+                            //       onPressed: () {
+                            //         // Navigator.pop(context); // Tutup bottom sheet
+                            //       },
+                            //       style: ButtonStyle(
+                            //           backgroundColor:
+                            //               MaterialStateProperty.all(
+                            //                   Color.fromARGB(
+                            //                       255, 68, 16, 152))),
+                            //       child: Text(
+                            //         'Konfirmasi',
+                            //         style: TextStyle(
+                            //             fontSize: 15,
+                            //             fontWeight: FontWeight.bold),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
-                      Divider(color: Color.fromARGB(255, 68, 16, 152)),
-                      const SizedBox(
-                        height: 10,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Mau service apa ?',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      width: screenWidth * 1,
+                      //  decoration: BoxDecoration(border: Border.all()),
+                      child: Column(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              //  border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Tanggal Order :',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              // border:
-                              //     Border.all(color: Colors.black, width: 0.5),
-                              borderRadius: BorderRadius.circular(3.0),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '24 Desember 2023',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              //  border: Border.all(color: Colors.black, width: 1.0),
-                              borderRadius: BorderRadius.circular(3.0),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Jam Order :',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              //  border: Border.all(color: Colors.black, width: 1.0),
-                              borderRadius: BorderRadius.circular(3.0),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '12:00 WIB',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              //  border: Border.all(color: Colors.black, width: 1.0),
-                              borderRadius: BorderRadius.circular(3.0),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Tipe Service :',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              //  border: Border.all(color: Colors.black, width: 1.0),
-                              borderRadius: BorderRadius.circular(3.0),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Perawatan AC',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            // border: Border.all(
-                            //     color: const Color.fromARGB(131, 131, 131, 131),
-                            //     width: 0.5),
-                            borderRadius: BorderRadius.circular(3.0),
-                            color: Color.fromARGB(255, 68, 16, 152),
-                          ),
-                          child: const Center(
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(
-                                  Icons.map_sharp,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  size: 15.0,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 0.5),
+                                  child: Container(
+                                    width: screenWidth * 0.44,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(255, 240, 237,
+                                              237), // Warna bayangan
+                                          offset: Offset(0,
+                                              1), // Perpindahan bayangan horizontal dan vertikal
+                                          blurRadius: 3, // Radius blur bayangan
+                                          spreadRadius: 1, // Sebaran bayangan
+                                        ),
+                                      ],
+                                      //   border: Border.all(width: 0.5),
+                                    ),
+                                    child: CupertinoButton(
+                                      onPressed: () {
+                                        _order();
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              _order();
+                                            },
+                                            icon: Image.asset(
+                                              'assets/images/perawatan.png',
+                                              width: screenWidth * 0.6,
+                                              height: 50,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Perawatan AC',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: 30.0,
-                                ),
-                                Center(
-                                  child: Text(
-                                    'Jl. Cikoko Timur no.2 Jakarta selatan',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.white),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 0.5),
+                                  child: Container(
+                                    width: screenWidth * 0.44,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(255, 240, 237,
+                                              237), // Warna bayangan
+                                          offset: Offset(0,
+                                              1), // Perpindahan bayangan horizontal dan vertikal
+                                          blurRadius: 3, // Radius blur bayangan
+                                          spreadRadius: 1, // Sebaran bayangan
+                                        ),
+                                      ],
+                                      //   border: Border.all(width: 0.5),
+                                    ),
+                                    child: CupertinoButton(
+                                      onPressed: () {},
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: Image.asset(
+                                              'assets/images/tambah_freon.png',
+                                              width: screenWidth * 0.6,
+                                              height: 50,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Perawatan',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Dan Tambah Freon',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                      // Divider(
-                      //   color: const Color.fromARGB(255, 142, 142, 142),
-                      //   thickness: 0.5,
-                      // ),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Status order'),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Navigator.pop(context); // Tutup bottom sheet
-                            },
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(255, 68, 16, 152))),
-                            child: Text(
-                              'Konfirmasi',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 0.5),
+                                  child: Container(
+                                    width: screenWidth * 0.44,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(255, 240, 237,
+                                              237), // Warna bayangan
+                                          offset: Offset(0,
+                                              1), // Perpindahan bayangan horizontal dan vertikal
+                                          blurRadius: 3, // Radius blur bayangan
+                                          spreadRadius: 1, // Sebaran bayangan
+                                        ),
+                                      ],
+                                      //   border: Border.all(width: 0.5),
+                                    ),
+                                    child: CupertinoButton(
+                                      pressedOpacity: 0.2,
+                                      onPressed: () {},
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: Image.asset(
+                                              'assets/images/service.png',
+                                              width: screenWidth * 0.6,
+                                              height: 50,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Pemasangan AC',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 0.5),
+                                  child: Container(
+                                    width: screenWidth * 0.44,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(255, 240, 237,
+                                              237), // Warna bayangan
+                                          offset: Offset(0,
+                                              1), // Perpindahan bayangan horizontal dan vertikal
+                                          blurRadius: 3, // Radius blur bayangan
+                                          spreadRadius: 1, // Sebaran bayangan
+                                        ),
+                                      ],
+                                      //   border: Border.all(width: 0.5),
+                                    ),
+                                    child: CupertinoButton(
+                                      pressedOpacity: 0.2,
+                                      onPressed: () {},
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: Image.asset(
+                                              'assets/images/house.png',
+                                              width: screenWidth * 0.6,
+                                              height: 50,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Bongkar',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Pasang AC',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(3, 0, 1, 0),
-                  width: 195,
-                  height: 200,
-                  child: Center(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            color: Color.fromARGB(255, 237, 240, 242),
-                            width:
-                                1.0), // Atur warna dan lebar garis luar (outline)
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Atur radius sudut
-                      ),
-                      child: Center(
-                        child: Container(
-                          child: const Text('foto'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(2, 0, 1, 0),
-                  width: 195,
-                  height: 200,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                          color: Color.fromARGB(255, 237, 240, 242),
-                          width:
-                              1.0), // Atur warna dan lebar garis luar (outline)
-                      borderRadius:
-                          BorderRadius.circular(10.0), // Atur radius sudut
-                    ),
-                    child: Center(
-                      child: Container(
-                        child: const Text('foto'),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(3, 0, 1, 0),
-                  width: 195,
-                  height: 200,
-                  child: Center(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            color: Color.fromARGB(255, 237, 240, 242),
-                            width:
-                                1.0), // Atur warna dan lebar garis luar (outline)
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Atur radius sudut
-                      ),
-                      child: Center(
-                        child: Container(
-                          child: const Text('foto'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(2, 0, 1, 0),
-                  width: 195,
-                  height: 200,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                          color: Color.fromARGB(255, 237, 240, 242),
-                          width:
-                              1.0), // Atur warna dan lebar garis luar (outline)
-                      borderRadius:
-                          BorderRadius.circular(10.0), // Atur radius sudut
-                    ),
-                    child: Center(
-                      child: Container(
-                        child: const Text('foto'),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class SecondPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Halaman 2'),
     );
   }
 }
@@ -605,105 +729,60 @@ class SecondPage extends StatelessWidget {
 class ThirdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SingleChildScrollView(
+          //  width: double.infinity,
+          child: Column(
+        children: [],
+      )),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
 
     // Mengambil lebar layar perangkat
     double screenWidth = mediaQueryData.size.width;
+    double screenHeight = mediaQueryData.size.height;
+
     return SingleChildScrollView(
-      child: Container(
-        width: screenWidth,
-        //  color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
-          child: Container(
-            // color: Colors.white,
-            width: screenWidth * 1,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: screenWidth * 0.13,
-                      //  decoration: BoxDecoration(border: Border.all()),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey,
-                      ),
-                    ),
-                    Container(
-                        width: screenWidth * 0.6,
-                        //  decoration: BoxDecoration(border: Border.all()),
-                        child: Text(
-                          'HI, Iyamif !',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.notifications_none_rounded,
-                        color: Color.fromARGB(255, 9, 31, 110),
-                        size: 30,
-                      ),
-                    ),
-                  ],
-                ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: Container(
+              width: screenWidth,
+              child: Column(children: [
                 Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Container(
-                    width: screenWidth * 0.9,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: Color.fromARGB(255, 255, 255, 255),
+                  padding: const EdgeInsets.only(top: 10, left: 8.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      'Tipe Lokasi',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8, bottom: 8, left: 4, right: 4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 200,
-                            // decoration: BoxDecoration(border: Border.all()),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
-                            ),
-                          ),
-                          Container(
-                              alignment: Alignment.center,
-                              width: 50,
-                              height: 60,
-                              child: OutlinedButton(
-                                // color: Colors.red,
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(
-                                      BorderSide.none),
-                                ),
-                                onPressed: () {},
-                                child: Icon(
-                                  Icons.search,
-                                  color: Colors.black,
-                                ),
-                              ))
-                        ],
-                      ),
-                    ),
-                    //   color: const Color.fromARGB(255, 220, 220, 220),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: screenWidth * 0.9,
-                    height: 200,
+                    width: screenWidth * 1,
+                    height: screenHeight * 0.13,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: Color.fromARGB(255, 53, 4, 108),
+                      borderRadius: BorderRadius.circular(10),
+                      //  color: Color.fromARGB(255, 139, 227, 233),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 229, 229, 229),
+                          Color.fromARGB(255, 203, 206, 220)
+                        ], // Warna gradient
+                        begin: Alignment.topLeft, // Posisi awal gradient
+                        end: Alignment.bottomRight, // Posisi akhir gradient
+                      ),
                       boxShadow: const [
                         BoxShadow(
                           color: Color.fromARGB(
@@ -715,282 +794,283 @@ class ThirdPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Center(
-                        child: CarouselSlider(
-                      options: CarouselOptions(
-                        height: 400,
-                        aspectRatio:
-                            1.0, // Menyamakan rasio aspek item dengan lebar Container
-                        viewportFraction: 1.0,
-                        initialPage: 0,
-                        enableInfiniteScroll: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-
-                        // Atur tinggi carousel sesuai kebutuhan
-                      ),
-                      items: [
-                        Image.network(
-                            'https://media.pricebook.co.id/article/5e5e294ab92c2e49128b456b/5e5e294ab92c2e49128b456b_1638247494.jpg',
-                            fit: BoxFit.cover),
-                        Image.network(
-                            'https://images.unsplash.com/photo-1574217013471-c32c6846cef7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm90b3xlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80',
-                            fit: BoxFit.cover),
-                        Image.network(
-                            'https://3.bp.blogspot.com/-HlKo1DSjY-U/V5_HowL6W3I/AAAAAAAAGfE/UOTItuyovjoMlvElSgV4mOSdSabm7N71gCLcB/s1600/service%2Bac%2Bbeji%2Bdepok.jpg',
-                            fit: BoxFit.cover),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1.0),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1.0),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1.0),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1.0),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        )
                       ],
-                    )),
-                    //   color: const Color.fromARGB(255, 220, 220, 220),
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Lokasi Pengerjaan',
+                      //   style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Mau service apa ?',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    width: screenWidth * 1,
-                    //  decoration: BoxDecoration(border: Border.all()),
-                    child: Column(
+                    width: screenWidth * 0.9,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(width: 0.5)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 0.5),
-                                child: Container(
-                                  width: screenWidth * 0.44,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromARGB(255, 240, 237,
-                                            237), // Warna bayangan
-                                        offset: Offset(0,
-                                            1), // Perpindahan bayangan horizontal dan vertikal
-                                        blurRadius: 3, // Radius blur bayangan
-                                        spreadRadius: 1, // Sebaran bayangan
-                                      ),
-                                    ],
-                                    //   border: Border.all(width: 0.5),
-                                  ),
-                                  child: CupertinoButton(
-                                    onPressed: () {},
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Image.asset(
-                                            'assets/images/perawatan.png',
-                                            width: screenWidth * 0.6,
-                                            height: 50,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Perawatan AC',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 0.5),
-                                child: Container(
-                                  width: screenWidth * 0.44,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromARGB(255, 240, 237,
-                                            237), // Warna bayangan
-                                        offset: Offset(0,
-                                            1), // Perpindahan bayangan horizontal dan vertikal
-                                        blurRadius: 3, // Radius blur bayangan
-                                        spreadRadius: 1, // Sebaran bayangan
-                                      ),
-                                    ],
-                                    //   border: Border.all(width: 0.5),
-                                  ),
-                                  child: CupertinoButton(
-                                    onPressed: () {},
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Image.asset(
-                                            'assets/images/tambah_freon.png',
-                                            width: screenWidth * 0.6,
-                                            height: 50,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Perawatan',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Dan Tambah Freon',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          height: 60,
+                          child: OutlinedButton(
+                            // color: Colors.red,
+                            style: ButtonStyle(
+                              side: MaterialStateProperty.all(BorderSide.none),
+                            ),
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 0.5),
-                                child: Container(
-                                  width: screenWidth * 0.44,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromARGB(255, 240, 237,
-                                            237), // Warna bayangan
-                                        offset: Offset(0,
-                                            1), // Perpindahan bayangan horizontal dan vertikal
-                                        blurRadius: 3, // Radius blur bayangan
-                                        spreadRadius: 1, // Sebaran bayangan
-                                      ),
-                                    ],
-                                    //   border: Border.all(width: 0.5),
-                                  ),
-                                  child: CupertinoButton(
-                                    pressedOpacity: 0.2,
-                                    onPressed: () {},
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Image.asset(
-                                            'assets/images/service.png',
-                                            width: screenWidth * 0.6,
-                                            height: 50,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Pemasangan AC',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 0.5),
-                                child: Container(
-                                  width: screenWidth * 0.44,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromARGB(255, 240, 237,
-                                            237), // Warna bayangan
-                                        offset: Offset(0,
-                                            1), // Perpindahan bayangan horizontal dan vertikal
-                                        blurRadius: 3, // Radius blur bayangan
-                                        spreadRadius: 1, // Sebaran bayangan
-                                      ),
-                                    ],
-                                    //   border: Border.all(width: 0.5),
-                                  ),
-                                  child: CupertinoButton(
-                                    pressedOpacity: 0.2,
-                                    onPressed: () {},
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Image.asset(
-                                            'assets/images/house.png',
-                                            width: screenWidth * 0.6,
-                                            height: 50,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Bongkar',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Pasang AC',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Container(
+                          width: 200,
+                          // decoration: BoxDecoration(border: Border.all()),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none)),
                           ),
                         ),
                       ],
                     ),
                   ),
-                )
-              ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: screenWidth * 0.9,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(width: 0.5)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          height: 60,
+                          child: OutlinedButton(
+                            // color: Colors.red,
+                            style: ButtonStyle(
+                              side: MaterialStateProperty.all(BorderSide.none),
+                            ),
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 200,
+                          // decoration: BoxDecoration(border: Border.all()),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Text('Waktu Pengerjaan'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: screenWidth * 0.9,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(width: 0.5)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          height: 60,
+                          child: OutlinedButton(
+                            // color: Colors.red,
+                            style: ButtonStyle(
+                              side: MaterialStateProperty.all(BorderSide.none),
+                            ),
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 200,
+                          // decoration: BoxDecoration(border: Border.all()),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: screenWidth * 0.9,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(width: 0.5)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          height: 60,
+                          child: OutlinedButton(
+                            // color: Colors.red,
+                            style: ButtonStyle(
+                              side: MaterialStateProperty.all(BorderSide.none),
+                            ),
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 200,
+                          // decoration: BoxDecoration(border: Border.all()),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Tambahkan Catatan',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: screenWidth * 0.9,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 0.5),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(
+                              255, 240, 237, 237), // Warna bayangan
+                          offset: Offset(0,
+                              1), // Perpindahan bayangan horizontal dan vertikal
+                          blurRadius: 3, // Radius blur bayangan
+                          spreadRadius: 1, // Sebaran bayangan
+                        ),
+                      ],
+                    ),
+                    child: TextField(),
+                  ),
+                ),
+                Container(),
+                SizedBox(
+                  height: 100,
+                ),
+              ]),
             ),
           ),
-        ),
+          Positioned(
+              bottom: 0,
+              height: 50,
+              //     left: 160,
+              child: Container(
+                height: 10,
+                width: screenWidth,
+                decoration: BoxDecoration(color: Colors.amber),
+              ))
+        ],
       ),
     );
   }

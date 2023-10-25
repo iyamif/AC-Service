@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^4.0.1
   curved_navigation_bar: ^1.0.3
   carousel_slider: ^4.2.1
+  flutter_image_slideshow: ^0.1.6
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,15 @@ flutter:
   - assets/images/perawatan.png
   - assets/images/tambah_freon.png
   - assets/images/service.png
+  - assets/images/send.png
+  - assets/images/shop.png
+  - assets/images/rumah.png
+  - assets/images/clock.png
+  - assets/images/calendar.png
+  - assets/images/houses.png
+  - assets/images/apart.png
+
+  
 
   # assets:
   #   - assets/images/finger.png
