@@ -64,6 +64,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
   bool showPassword = false;
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -80,345 +81,592 @@ class _MyHomePageState extends State<MyHomePage> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
-    return Container(
-      width: double.infinity,
-      child: Container(
-        // iphone13mini1LeL (636:6)
-        padding: EdgeInsets.fromLTRB(45 * fem, 56 * fem, 45 * fem, 238 * fem),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xffffffff),
-          borderRadius: BorderRadius.circular(20 * fem),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              // autogroupe4zeUXa (JnjEU72CN1ube52Swje4Ze)
-              margin:
-                  EdgeInsets.fromLTRB(13 * fem, 0 * fem, 23 * fem, 30 * fem),
-              padding:
-                  EdgeInsets.fromLTRB(16 * fem, 222 * fem, 21 * fem, 14 * fem),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    'assets/images/b3071185f13ddead6c6fb6ab1142e06b-1-bg.png',
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    double screenWidth = mediaQueryData.size.width;
+    double screenHeight = mediaQueryData.size.height;
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            height: screenHeight * 1,
+            width: screenWidth * 1,
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 250,
+                    width: screenWidth * 1,
+                    color: Colors.white,
+                    child: Image.asset(
+                        'assets/images/b3071185f13ddead6c6fb6ab1142e06b-1-bg.png'),
                   ),
                 ),
-              ),
-              child: Text(
-                'TEKNISI AC JAKARTA',
-                style: SafeGoogleFont(
-                  'Inter',
-                  fontSize: 20 * ffem,
-                  fontWeight: FontWeight.w700,
-                  height: 1.3 * ffem / fem,
-                  color: const Color(0xff056089),
-                ),
-              ),
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 0.2),
-                      // color: const Color.fromARGB(255, 214, 214, 214),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(
-                              255, 239, 239, 239), // Warna bayangan
-                          offset: Offset(0,
-                              1), // Perpindahan bayangan horizontal dan vertikal
-                          blurRadius: 2, // Radius blur bayangan
-                          spreadRadius: 1, // Sebaran bayangan
-                        ),
-                      ],
-                    ),
-                    width: 375,
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 40,
-                          decoration: const BoxDecoration(
-                              // border: Border.all(),
-                              //color: Colors.blueGrey,
-                              ),
-                          child: const Icon(Icons.person_2_outlined),
-                        ),
-                        Container(
-                          width: 250,
-                          decoration: const BoxDecoration(
-                              //   border: Border.all(),
-                              ),
-                          child: Center(
-                            child: TextFormField(
-                              key: const Key('username'),
-                              controller: _usernameController,
-                              decoration: const InputDecoration(
-                                  //   labelText: 'Username',
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: 'Username'),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return '* wajib diisi';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 0.2),
-                      // color: const Color.fromARGB(255, 214, 214, 214),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(
-                              255, 234, 233, 233), // Warna bayangan
-                          offset: Offset(0,
-                              1), // Perpindahan bayangan horizontal dan vertikal
-                          blurRadius: 2, // Radius blur bayangan
-                          spreadRadius: 1, // Sebaran bayangan
-                        ),
-                      ],
-                    ),
-                    width: 375,
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 40,
-                          decoration: const BoxDecoration(
-                              // border: Border.all(),
-                              //color: Colors.blueGrey,
-                              ),
-                          child: const Icon(Icons.lock_outline),
-                        ),
-                        Container(
-                          width: 250,
-                          decoration: const BoxDecoration(
-                              //   border: Border.all(),
-                              ),
-                          child: Center(
-                            child: TextFormField(
-                              key: const Key('password'),
-                              controller: _passwordController,
-                              obscureText: showPassword ? false : true,
-                              decoration: InputDecoration(
-                                //   labelText: 'Username',
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide.none),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Password',
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      showPassword = !showPassword;
-                                    });
-                                  },
-                                  child: Icon(
-                                    showPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.black,
-                                    size: 18,
-                                  ),
-                                ),
-                              ),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: ((value) {
-                                if (value == null || value.isEmpty) {
-                                  return "* wajib diisi";
-                                }
-                                return null;
-                              }),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              // lupapasswordg9n (638:3)
-              margin: EdgeInsets.fromLTRB(183 * fem, 0 * fem, 0 * fem, 6 * fem),
-              child: Text(
-                'Lupa Password ?',
-                style: SafeGoogleFont(
-                  'Inter',
-                  fontSize: 12 * ffem,
-                  fontWeight: FontWeight.w400,
-                  height: 1.2999999523 * ffem / fem,
-                  color: const Color(0xff000000),
-                ),
-              ),
-            ),
-            Container(
-              // autogroupressNoJ (JnjEq1b2bCKwZhHqfJrEsS)
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 7 * fem),
-              width: double.infinity,
-              height: 55 * fem,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      // autogroup6zuiVd2 (JnjEwktnaNAEd8rmSP6Zui)
-                      margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 15 * fem, 0 * fem),
-                      width: 214 * fem,
-                      height: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff007eb6),
-                        borderRadius: BorderRadius.circular(10 * fem),
-                      ),
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _login();
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 4, 74, 124)),
-                            padding: MaterialStateProperty.all(
-                                const EdgeInsets.all(16)),
-                            minimumSize: MaterialStateProperty.all(Size(
-                              214 * fem,
-                              214 * fem,
-                            )),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    10.0), // Atur radius sesuai kebutuhan
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            'Login',
-                            style: SafeGoogleFont(
-                              'Inter',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w700,
-                              height: 1.3 * ffem / fem,
-                              color: const Color(0xffffffff),
-                            ),
-                          ),
-                        ),
-                      )),
-                  Container(
-                    // autogroupnvkg9ha (JnjF1b7jdUTdv8LmuQnvkG)
-                    width: 50 * fem,
-                    // padding: EdgeInsets.fromLTRB(
-                    //     8.45 * fem, 11.14 * fem, 5.06 * fem, 9.04 * fem),
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff007eb6),
-                      borderRadius: BorderRadius.circular(10 * fem),
-                    ),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          _beranda();
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromARGB(255, 4, 74, 124)),
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.all(16)),
-                          minimumSize: MaterialStateProperty.all(Size(
-                            50 * fem,
-                            50 * fem,
-                          )),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Atur radius sesuai kebutuhan
-                            ),
-                          ),
-                        ),
-                        child: Center(
-                          // fingerdse (636:19)
-                          child: SizedBox(
-                            width: 50 * fem,
-                            height: 50 * fem,
-                            child: Image.asset(
-                              'assets/images/finger.png',
-                              width: 42.49 * fem,
-                              height: 34.81 * fem,
-                            ),
-                          ),
-                        )),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 9 * fem, 0 * fem),
-              child: RichText(
-                text: TextSpan(
+                Text(
+                  'TEKNISI AC JAKARTA',
                   style: SafeGoogleFont(
                     'Inter',
-                    fontSize: 12 * ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.2999999523 * ffem / fem,
-                    color: const Color(0xff000000),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    height: 1.3 * ffem / fem,
+                    color: const Color(0xff056089),
                   ),
-                  children: [
-                    TextSpan(
-                      text: 'Belum Punya Akun ? ',
-                      style: SafeGoogleFont(
-                        'Inter',
-                        fontSize: 12 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2999999523 * ffem / fem,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
-                    TextSpan(
-                        text: 'Daftar sekarang !',
-                        style: SafeGoogleFont(
-                          'Inter',
-                          fontSize: 12 * ffem,
-                          fontWeight: FontWeight.w700,
-                          height: 1.2999999523 * ffem / fem,
-                          color: const Color(0xff000000),
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            _showBottomSheet(context);
-                          }),
-                  ],
                 ),
-              ),
+                SizedBox(
+                  height: 30,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, top: 4, bottom: 4),
+                          child: const Text(
+                            'Username',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 39, 155, 249),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 25, right: 25),
+                        child: TextFormField(
+                          key: const Key('username'),
+                          controller: _usernameController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return '* wajib diisi';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.lightBlue),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 231, 240, 248),
+                                width: 2,
+                              ), // Ubah warna outline saat tidak dalam keadaan fokus
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.only(
+                                top: 0, right: 30, bottom: 0, left: 15),
+                            hintText: 'masukan username disini',
+                            prefixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  showPassword = !showPassword;
+                                });
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 15),
+                                child: Icon(
+                                  Icons.person_2_outlined,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, top: 4, bottom: 4),
+                          child: const Text(
+                            'Kata Sandi',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 25, right: 25),
+                        child: TextFormField(
+                          key: const Key('password'),
+                          controller: _passwordController,
+                          obscureText: showPassword ? false : true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return '* wajib diisi';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.lightBlue),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 231, 240, 248),
+                                width: 2,
+                              ), // Ubah warna outline saat tidak dalam keadaan fokus
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.only(
+                                top: 0, right: 30, bottom: 0, left: 15),
+                            hintText: 'masukan password ',
+                            prefixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  showPassword = !showPassword;
+                                });
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 15),
+                                child: Icon(
+                                  Icons.lock_outline,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 25, right: 25),
+                            child: TextButton(
+                                onPressed: () {},
+                                child: Text('Lupa Password ?')),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 25, right: 8),
+                            child: TextButton(
+                              onPressed: () async {
+                                _login();
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 1, 11, 147)),
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.only(
+                                        left: 113,
+                                        right: 113,
+                                        bottom: 20,
+                                        top: 20)),
+                              ),
+                              child: (isLoading)
+                                  ? SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        color: Theme.of(context).primaryColor,
+                                        strokeWidth: 1.5,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Masuk',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                    ),
+                            ),
+                          ),
+                          // const SizedBox(
+                          //   width: 3.0,
+                          // ),
+                          TextButton(
+                            onPressed: () async {},
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 1, 11, 147)),
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.all(15))),
+                            child: Builder(builder: (context) {
+                              return const Icon(
+                                Icons.fingerprint,
+                                color: Colors.green,
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, top: 4, bottom: 4),
+                          child: const Text(
+                            'Kata Sandi',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 63, 66, 67),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          ],
+          ),
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: [
+          //     Container(
+          //       // autogroupe4zeUXa (JnjEU72CN1ube52Swje4Ze)
+          //       margin:
+          //           EdgeInsets.fromLTRB(13 * fem, 0 * fem, 23 * fem, 30 * fem),
+          //       padding: EdgeInsets.fromLTRB(
+          //           16 * fem, 222 * fem, 21 * fem, 14 * fem),
+          //       width: double.infinity,
+          //       decoration: const BoxDecoration(
+          //         image: DecorationImage(
+          //           fit: BoxFit.cover,
+          //           image: AssetImage(
+          //             'assets/images/b3071185f13ddead6c6fb6ab1142e06b-1-bg.png',
+          //           ),
+          //         ),
+          //       ),
+          //       child: Text(
+          //         'TEKNISI AC JAKARTA',
+          //         style: SafeGoogleFont(
+          //           'Inter',
+          //           fontSize: 20 * ffem,
+          //           fontWeight: FontWeight.w700,
+          //           height: 1.3 * ffem / fem,
+          //           color: const Color(0xff056089),
+          //         ),
+          //       ),
+          //     ),
+          //     Form(
+          //       key: _formKey,
+          //       child: Column(
+          //         children: [
+          //           Container(
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(5),
+          //               border: Border.all(width: 0.2),
+          //               // color: const Color.fromARGB(255, 214, 214, 214),
+          //               boxShadow: const [
+          //                 BoxShadow(
+          //                   color: Color.fromARGB(
+          //                       255, 239, 239, 239), // Warna bayangan
+          //                   offset: Offset(0,
+          //                       1), // Perpindahan bayangan horizontal dan vertikal
+          //                   blurRadius: 2, // Radius blur bayangan
+          //                   spreadRadius: 1, // Sebaran bayangan
+          //                 ),
+          //               ],
+          //             ),
+          //             width: screenWidth * 0.8,
+          //             height: 50,
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Container(
+          //                   width: 40,
+          //                   decoration: const BoxDecoration(
+          //                       // border: Border.all(),
+          //                       //color: Colors.blueGrey,
+          //                       ),
+          //                   child: const Icon(Icons.person_2_outlined),
+          //                 ),
+          //                 Container(
+          //                   width: screenWidth * 0.5,
+          //                   decoration: const BoxDecoration(
+          //                       //   border: Border.all(),
+          //                       ),
+          //                   child: Center(
+          //                     child: TextFormField(
+          //                       key: const Key('username'),
+          //                       controller: _usernameController,
+          //                       decoration: const InputDecoration(
+          //                           //   labelText: 'Username',
+          //                           border: OutlineInputBorder(
+          //                               borderSide: BorderSide.none),
+          //                           filled: true,
+          //                           fillColor: Colors.white,
+          //                           hintText: 'Username'),
+          //                       autovalidateMode:
+          //                           AutovalidateMode.onUserInteraction,
+          //                       validator: (value) {
+          //                         if (value == null || value.isEmpty) {
+          //                           return '* wajib diisi';
+          //                         }
+          //                         return null;
+          //                       },
+          //                     ),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //           const SizedBox(
+          //             height: 14,
+          //           ),
+          //           Container(
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(5),
+          //               border: Border.all(width: 0.2),
+          //               // color: const Color.fromARGB(255, 214, 214, 214),
+          //               boxShadow: const [
+          //                 BoxShadow(
+          //                   color: Color.fromARGB(
+          //                       255, 234, 233, 233), // Warna bayangan
+          //                   offset: Offset(0,
+          //                       1), // Perpindahan bayangan horizontal dan vertikal
+          //                   blurRadius: 2, // Radius blur bayangan
+          //                   spreadRadius: 1, // Sebaran bayangan
+          //                 ),
+          //               ],
+          //             ),
+          //             width: 375,
+          //             height: 50,
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Container(
+          //                   width: 40,
+          //                   decoration: const BoxDecoration(
+          //                       // border: Border.all(),
+          //                       //color: Colors.blueGrey,
+          //                       ),
+          //                   child: const Icon(Icons.lock_outline),
+          //                 ),
+          //                 Container(
+          //                   width: 250,
+          //                   decoration: const BoxDecoration(
+          //                       //   border: Border.all(),
+          //                       ),
+          //                   child: Center(
+          //                     child: TextFormField(
+          //                       key: const Key('password'),
+          //                       controller: _passwordController,
+          //                       obscureText: showPassword ? false : true,
+          //                       decoration: InputDecoration(
+          //                         //   labelText: 'Username',
+          //                         border: const OutlineInputBorder(
+          //                             borderSide: BorderSide.none),
+          //                         filled: true,
+          //                         fillColor: Colors.white,
+          //                         hintText: 'Password',
+          //                         suffixIcon: GestureDetector(
+          //                           onTap: () {
+          //                             setState(() {
+          //                               showPassword = !showPassword;
+          //                             });
+          //                           },
+          //                           child: Icon(
+          //                             showPassword
+          //                                 ? Icons.visibility
+          //                                 : Icons.visibility_off,
+          //                             color: Colors.black,
+          //                             size: 18,
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       autovalidateMode:
+          //                           AutovalidateMode.onUserInteraction,
+          //                       validator: ((value) {
+          //                         if (value == null || value.isEmpty) {
+          //                           return "* wajib diisi";
+          //                         }
+          //                         return null;
+          //                       }),
+          //                     ),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     const SizedBox(
+          //       height: 10,
+          //     ),
+          //     Container(
+          //       // lupapasswordg9n (638:3)
+          //       margin:
+          //           EdgeInsets.fromLTRB(183 * fem, 0 * fem, 0 * fem, 6 * fem),
+          //       child: Text(
+          //         'Lupa Password ?',
+          //         style: SafeGoogleFont(
+          //           'Inter',
+          //           fontSize: 12 * ffem,
+          //           fontWeight: FontWeight.w400,
+          //           height: 1.2999999523 * ffem / fem,
+          //           color: const Color(0xff000000),
+          //         ),
+          //       ),
+          //     ),
+          //     Container(
+          //       // autogroupressNoJ (JnjEq1b2bCKwZhHqfJrEsS)
+          //       margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 7 * fem),
+          //       width: double.infinity,
+          //       height: 55 * fem,
+          //       child: Row(
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: [
+          //           Container(
+          //               // autogroup6zuiVd2 (JnjEwktnaNAEd8rmSP6Zui)
+          //               margin: EdgeInsets.fromLTRB(
+          //                   0 * fem, 0 * fem, 15 * fem, 0 * fem),
+          //               width: 214 * fem,
+          //               height: double.infinity,
+          //               decoration: BoxDecoration(
+          //                 color: const Color(0xff007eb6),
+          //                 borderRadius: BorderRadius.circular(10 * fem),
+          //               ),
+          //               child: Center(
+          //                 child: ElevatedButton(
+          //                   onPressed: () {
+          //                     _login();
+          //                   },
+          //                   style: ButtonStyle(
+          //                     backgroundColor: MaterialStateProperty.all(
+          //                         const Color.fromARGB(255, 4, 74, 124)),
+          //                     padding: MaterialStateProperty.all(
+          //                         const EdgeInsets.all(16)),
+          //                     minimumSize: MaterialStateProperty.all(Size(
+          //                       214 * fem,
+          //                       214 * fem,
+          //                     )),
+          //                     shape: MaterialStateProperty.all<
+          //                         RoundedRectangleBorder>(
+          //                       RoundedRectangleBorder(
+          //                         borderRadius: BorderRadius.circular(
+          //                             10.0), // Atur radius sesuai kebutuhan
+          //                       ),
+          //                     ),
+          //                   ),
+          //                   child: Text(
+          //                     'Login',
+          //                     style: SafeGoogleFont(
+          //                       'Inter',
+          //                       fontSize: 20 * ffem,
+          //                       fontWeight: FontWeight.w700,
+          //                       height: 1.3 * ffem / fem,
+          //                       color: const Color(0xffffffff),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               )),
+          //           Container(
+          //             // autogroupnvkg9ha (JnjF1b7jdUTdv8LmuQnvkG)
+          //             width: 50 * fem,
+          //             // padding: EdgeInsets.fromLTRB(
+          //             //     8.45 * fem, 11.14 * fem, 5.06 * fem, 9.04 * fem),
+          //             height: double.infinity,
+          //             decoration: BoxDecoration(
+          //               color: const Color(0xff007eb6),
+          //               borderRadius: BorderRadius.circular(10 * fem),
+          //             ),
+          //             child: ElevatedButton(
+          //                 onPressed: () {
+          //                   _beranda();
+          //                 },
+          //                 style: ButtonStyle(
+          //                   backgroundColor: MaterialStateProperty.all(
+          //                       const Color.fromARGB(255, 4, 74, 124)),
+          //                   padding: MaterialStateProperty.all(
+          //                       const EdgeInsets.all(16)),
+          //                   minimumSize: MaterialStateProperty.all(Size(
+          //                     50 * fem,
+          //                     50 * fem,
+          //                   )),
+          //                   shape: MaterialStateProperty.all<
+          //                       RoundedRectangleBorder>(
+          //                     RoundedRectangleBorder(
+          //                       borderRadius: BorderRadius.circular(
+          //                           10.0), // Atur radius sesuai kebutuhan
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 child: Center(
+          //                   // fingerdse (636:19)
+          //                   child: SizedBox(
+          //                     width: 50 * fem,
+          //                     height: 50 * fem,
+          //                     child: Image.asset(
+          //                       'assets/images/finger.png',
+          //                       width: 42.49 * fem,
+          //                       height: 34.81 * fem,
+          //                     ),
+          //                   ),
+          //                 )),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     Container(
+          //       margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 9 * fem, 0 * fem),
+          //       child: RichText(
+          //         text: TextSpan(
+          //           style: SafeGoogleFont(
+          //             'Inter',
+          //             fontSize: 12 * ffem,
+          //             fontWeight: FontWeight.w400,
+          //             height: 1.2999999523 * ffem / fem,
+          //             color: const Color(0xff000000),
+          //           ),
+          //           children: [
+          //             TextSpan(
+          //               text: 'Belum Punya Akun ? ',
+          //               style: SafeGoogleFont(
+          //                 'Inter',
+          //                 fontSize: 12 * ffem,
+          //                 fontWeight: FontWeight.w400,
+          //                 height: 1.2999999523 * ffem / fem,
+          //                 color: const Color(0xff000000),
+          //               ),
+          //             ),
+          //             TextSpan(
+          //                 text: 'Daftar sekarang !',
+          //                 style: SafeGoogleFont(
+          //                   'Inter',
+          //                   fontSize: 12 * ffem,
+          //                   fontWeight: FontWeight.w700,
+          //                   height: 1.2999999523 * ffem / fem,
+          //                   color: const Color(0xff000000),
+          //                 ),
+          //                 recognizer: TapGestureRecognizer()
+          //                   ..onTap = () {
+          //                     _showBottomSheet(context);
+          //                   }),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ),
       ),
     );
@@ -567,6 +815,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var res = await ResClient().authData(data, '/login');
     var body = json.decode(res.body);
+    print(body);
 
     if (body["message"]) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
