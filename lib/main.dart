@@ -307,29 +307,43 @@ class _MyHomePageState extends State<MyHomePage> {
                                 backgroundColor: MaterialStateProperty.all(
                                     Color.fromARGB(255, 1, 11, 147)),
                                 padding: MaterialStateProperty.all(
-                                    const EdgeInsets.all(15))),
+                                    const EdgeInsets.all(10))),
                             child: Builder(builder: (context) {
                               return const Icon(
                                 Icons.fingerprint,
-                                color: Colors.green,
+                                color: Color.fromARGB(255, 220, 220, 220),
+                                size: 35,
                               );
                             }),
                           ),
                         ],
                       ),
-                      Container(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30, top: 4, bottom: 4),
-                          child: const Text(
-                            'Kata Sandi',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 63, 66, 67),
-                                fontWeight: FontWeight.bold),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25, top: 10, right: 25),
+                            child: RichText(
+                                text: TextSpan(children: [
+                              const TextSpan(
+                                text: 'Belum punya akun?',
+                                style:
+                                    TextStyle(color: Colors.blue, fontSize: 13),
+                              ),
+                              TextSpan(
+                                  text: ' Daftar sekarang',
+                                  style: const TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      _showBottomSheet(context);
+                                    })
+                            ])),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
