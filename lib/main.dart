@@ -1,34 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teknisi/services/res_client.dart';
 import 'package:teknisi/ui/beranda.dart';
 import 'package:teknisi/ui/utils.dart';
-import 'package:flutter/widgets.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences localStorage = await SharedPreferences.getInstance();
+  var token = localStorage.getString('token');
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter',
+  runApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: MyHomePage(title: 'Teknis'),
-        ),
-      ),
-    );
-  }
+      home: token == null
+          ? const MyHomePage(
+              title: 'Teknisi',
+            )
+          : const Beranda(),
+    ),
+  );
+
+  // runApp(const MyApp());
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter',
+//       debugShowCheckedModeBanner: false,
+//       scrollBehavior: MyCustomScrollBehavior(),
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const Scaffold(
+//         body: SingleChildScrollView(
+//           child: MyHomePage(title: 'Teknis'),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -40,11 +62,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isLoading = false;
   bool showPassword = false;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   Future<void> _beranda() async {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Beranda()),
+      MaterialPageRoute(builder: (context) => const Beranda()),
     );
   }
 
@@ -61,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.fromLTRB(45 * fem, 56 * fem, 45 * fem, 238 * fem),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xffffffff),
+          color: const Color(0xffffffff),
           borderRadius: BorderRadius.circular(20 * fem),
         ),
         child: Column(
@@ -93,121 +119,151 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(width: 0.2),
-                // color: const Color.fromARGB(255, 214, 214, 214),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 239, 239, 239), // Warna bayangan
-                    offset: Offset(
-                        0, 1), // Perpindahan bayangan horizontal dan vertikal
-                    blurRadius: 2, // Radius blur bayangan
-                    spreadRadius: 1, // Sebaran bayangan
-                  ),
-                ],
-              ),
-              width: 375,
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Form(
+              key: _formKey,
+              child: Column(
                 children: [
                   Container(
-                    width: 40,
                     decoration: BoxDecoration(
-                        // border: Border.all(),
-                        //color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(width: 0.2),
+                      // color: const Color.fromARGB(255, 214, 214, 214),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(
+                              255, 239, 239, 239), // Warna bayangan
+                          offset: Offset(0,
+                              1), // Perpindahan bayangan horizontal dan vertikal
+                          blurRadius: 2, // Radius blur bayangan
+                          spreadRadius: 1, // Sebaran bayangan
                         ),
-                    child: Icon(Icons.person_2_outlined),
-                  ),
-                  Container(
-                    width: 250,
-                    decoration: BoxDecoration(
-                        //   border: Border.all(),
-                        ),
-                    child: Center(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            //   labelText: 'Username',
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Username'),
-                      ),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 14,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(width: 0.2),
-                // color: const Color.fromARGB(255, 214, 214, 214),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 234, 233, 233), // Warna bayangan
-                    offset: Offset(
-                        0, 1), // Perpindahan bayangan horizontal dan vertikal
-                    blurRadius: 2, // Radius blur bayangan
-                    spreadRadius: 1, // Sebaran bayangan
-                  ),
-                ],
-              ),
-              width: 375,
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 40,
-                    decoration: BoxDecoration(
-                        // border: Border.all(),
-                        //color: Colors.blueGrey,
-                        ),
-                    child: Icon(Icons.lock_outline),
-                  ),
-                  Container(
-                    width: 250,
-                    decoration: BoxDecoration(
-                        //   border: Border.all(),
-                        ),
-                    child: Center(
-                      child: TextField(
-                        obscureText: showPassword ? false : true,
-                        decoration: InputDecoration(
-                            //   labelText: 'Username',
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Password',
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  showPassword = !showPassword;
-                                });
-                              },
-                              child: Icon(
-                                showPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.black,
-                                size: 18,
+                    width: 375,
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 40,
+                          decoration: const BoxDecoration(
+                              // border: Border.all(),
+                              //color: Colors.blueGrey,
                               ),
-                            )),
-                      ),
+                          child: const Icon(Icons.person_2_outlined),
+                        ),
+                        Container(
+                          width: 250,
+                          decoration: const BoxDecoration(
+                              //   border: Border.all(),
+                              ),
+                          child: Center(
+                            child: TextFormField(
+                              key: const Key('username'),
+                              controller: _usernameController,
+                              decoration: const InputDecoration(
+                                  //   labelText: 'Username',
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Username'),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return '* wajib diisi';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(width: 0.2),
+                      // color: const Color.fromARGB(255, 214, 214, 214),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(
+                              255, 234, 233, 233), // Warna bayangan
+                          offset: Offset(0,
+                              1), // Perpindahan bayangan horizontal dan vertikal
+                          blurRadius: 2, // Radius blur bayangan
+                          spreadRadius: 1, // Sebaran bayangan
+                        ),
+                      ],
+                    ),
+                    width: 375,
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 40,
+                          decoration: const BoxDecoration(
+                              // border: Border.all(),
+                              //color: Colors.blueGrey,
+                              ),
+                          child: const Icon(Icons.lock_outline),
+                        ),
+                        Container(
+                          width: 250,
+                          decoration: const BoxDecoration(
+                              //   border: Border.all(),
+                              ),
+                          child: Center(
+                            child: TextFormField(
+                              key: const Key('password'),
+                              controller: _passwordController,
+                              obscureText: showPassword ? false : true,
+                              decoration: InputDecoration(
+                                //   labelText: 'Username',
+                                border: const OutlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Password',
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      showPassword = !showPassword;
+                                    });
+                                  },
+                                  child: Icon(
+                                    showPassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.black,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: ((value) {
+                                if (value == null || value.isEmpty) {
+                                  return "* wajib diisi";
+                                }
+                                return null;
+                              }),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -220,7 +276,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontSize: 12 * ffem,
                   fontWeight: FontWeight.w400,
                   height: 1.2999999523 * ffem / fem,
-                  color: Color(0xff000000),
+                  color: const Color(0xff000000),
                 ),
               ),
             ),
@@ -245,11 +301,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            _beranda();
+                            _login();
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 4, 74, 124)),
+                                const Color.fromARGB(255, 4, 74, 124)),
                             padding: MaterialStateProperty.all(
                                 const EdgeInsets.all(16)),
                             minimumSize: MaterialStateProperty.all(Size(
@@ -271,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize: 20 * ffem,
                               fontWeight: FontWeight.w700,
                               height: 1.3 * ffem / fem,
-                              color: Color(0xffffffff),
+                              color: const Color(0xffffffff),
                             ),
                           ),
                         ),
@@ -283,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     //     8.45 * fem, 11.14 * fem, 5.06 * fem, 9.04 * fem),
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: Color(0xff007eb6),
+                      color: const Color(0xff007eb6),
                       borderRadius: BorderRadius.circular(10 * fem),
                     ),
                     child: ElevatedButton(
@@ -292,7 +348,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(255, 4, 74, 124)),
+                              const Color.fromARGB(255, 4, 74, 124)),
                           padding: MaterialStateProperty.all(
                               const EdgeInsets.all(16)),
                           minimumSize: MaterialStateProperty.all(Size(
@@ -332,7 +388,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 12 * ffem,
                     fontWeight: FontWeight.w400,
                     height: 1.2999999523 * ffem / fem,
-                    color: Color(0xff000000),
+                    color: const Color(0xff000000),
                   ),
                   children: [
                     TextSpan(
@@ -342,7 +398,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 12 * ffem,
                         fontWeight: FontWeight.w400,
                         height: 1.2999999523 * ffem / fem,
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                       ),
                     ),
                     TextSpan(
@@ -373,7 +429,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
 
     showModalBottomSheet(
       context: context,
@@ -403,7 +458,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: _textEditingController,
                 style: SafeGoogleFont('Inter',
                     fontStyle: FontStyle.italic,
-                    color: Color.fromARGB(255, 7, 165, 222),
+                    color: const Color.fromARGB(255, 7, 165, 222),
                     fontSize: 13.0),
                 decoration: const InputDecoration(
                   labelText: "Nama Lengkap",
@@ -469,7 +524,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                      Color.fromARGB(255, 4, 74, 124)),
+                      const Color.fromARGB(255, 4, 74, 124)),
                   padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
                   // minimumSize: MaterialStateProperty.all(Size(
                   //   25 * fem,
@@ -486,7 +541,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     30 * fem,
                   )),
                 ),
-                child: Text(
+                child: const Text(
                   "DAFTAR",
                   style: TextStyle(
                     fontSize: 20, // Atur ukuran font
@@ -499,5 +554,35 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _login() async {
+    setState(() {
+      isLoading = true;
+    });
+    var data = {
+      'email': _usernameController.text,
+      'password': _passwordController.text
+    };
+
+    var res = await ResClient().authData(data, '/login');
+    var body = json.decode(res.body);
+
+    if (body["message"]) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', json.encode(body['token']));
+
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Beranda()),
+      );
+    } else {
+      // _showMsg(body['message']);
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }
