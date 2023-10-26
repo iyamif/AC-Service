@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:teknisi/ui/test.dart';
 import 'package:teknisi/ui/utils.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -28,6 +29,15 @@ class _BerandaState extends State<Beranda> {
       context,
       MaterialPageRoute(
         builder: (context) => Order(),
+      ),
+    );
+  }
+
+  Future<void> _test() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => tesTing(),
       ),
     );
   }
@@ -71,11 +81,21 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
+
     Future<void> _order() async {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Order(),
+        ),
+      );
+    }
+
+    Future<void> _test() async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => tesTing(),
         ),
       );
     }
@@ -568,7 +588,9 @@ class FirstPage extends StatelessWidget {
                                       //   border: Border.all(width: 0.5),
                                     ),
                                     child: CupertinoButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _test();
+                                      },
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -727,14 +749,16 @@ class FirstPage extends StatelessWidget {
 }
 
 class ThirdPage extends StatelessWidget {
+  List<bool> isSelected = [false, false, false];
+  List<String> texts = ["Text 1", "Text 2", "Text 3"];
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SingleChildScrollView(
-          //  width: double.infinity,
-          child: Column(
-        children: [],
-      )),
+      body: Column(
+        children: [
+          Text('hallooo'),
+        ],
+      ),
     );
   }
 }

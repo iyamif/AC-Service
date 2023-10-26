@@ -41,6 +41,8 @@ dependencies:
   flutter_image_slideshow: ^0.1.6
   http: ^1.1.0
   shared_preferences: ^2.0.15
+  group_button: ^5.3.3
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
