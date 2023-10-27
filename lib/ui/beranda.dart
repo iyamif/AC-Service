@@ -1253,31 +1253,105 @@ class FourPage extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Referensi',
-                  style: TextStyle(fontSize: 13),
+                  'Preferensi',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                width: 380,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color:
-                          Color.fromARGB(255, 240, 237, 237), // Warna bayangan
-                      offset: Offset(
-                          0, 1), // Perpindahan bayangan horizontal dan vertikal
-                      blurRadius: 3, // Radius blur bayangan
-                      spreadRadius: 1, // Sebaran bayangan
-                    ),
-                  ],
-                ),
-              ),
+                  width: screenWidth,
+                  //     height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(
+                            255, 240, 237, 237), // Warna bayangan
+                        offset: Offset(0,
+                            1), // Perpindahan bayangan horizontal dan vertikal
+                        blurRadius: 3, // Radius blur bayangan
+                        spreadRadius: 1, // Sebaran bayangan
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      CupertinoButton(
+                        padding: EdgeInsets.all(10),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 60,
+                              color: Colors.transparent,
+                              child: Icon(
+                                Icons.language_outlined,
+                                color: Colors.lightBlueAccent,
+                              ),
+                            ),
+                            Container(
+                              width: 250,
+                              color: Colors.transparent,
+                              child: Text(
+                                'Bahasa',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 20,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15, left: 15),
+                        child: Divider(
+                          height: 10,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      CupertinoButton(
+                        padding: EdgeInsets.all(10),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 60,
+                              color: Colors.transparent,
+                              child: Icon(
+                                Icons.logout,
+                                color: Colors.lightBlueAccent,
+                              ),
+                            ),
+                            Container(
+                              width: 250,
+                              color: Colors.transparent,
+                              child: Text(
+                                '    Keluar',
+                                style: TextStyle(
+                                  color: Colors.lightBlueAccent,
+                                ),
+                              ),
+                            ),
+                            // Icon(
+                            //   Icons.arrow_forward_ios,
+                            //   size: 20,
+                            //   color: Colors.black,
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
             ),
             Container()
           ]),
