@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool showPassword = false;
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   Future<void> _beranda() async {
     Navigator.push(
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: const Color(0xff056089),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Form(
@@ -123,13 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Container(
+                      const SizedBox(
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30, top: 4, bottom: 4),
-                          child: const Text(
-                            'Username',
+                          padding: EdgeInsets.only(left: 30, top: 4, bottom: 4),
+                          child: Text(
+                            'Email',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 color: Color.fromARGB(255, 39, 155, 249),
@@ -138,10 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 25, right: 25),
+                        padding: const EdgeInsets.only(left: 25, right: 25),
                         child: TextFormField(
-                          key: const Key('username'),
-                          controller: _usernameController,
+                          key: const Key('email'),
+                          controller: _emailController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -152,11 +151,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.lightBlue),
+                              borderSide:
+                                  const BorderSide(color: Colors.lightBlue),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Color.fromARGB(255, 231, 240, 248),
                                 width: 2,
                               ), // Ubah warna outline saat tidak dalam keadaan fokus
@@ -165,16 +165,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             fillColor: Colors.white,
                             contentPadding: const EdgeInsets.only(
                                 top: 0, right: 30, bottom: 0, left: 15),
-                            hintText: 'masukan username disini',
+                            hintText: 'masukan email disini',
                             prefixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {
                                   showPassword = !showPassword;
                                 });
                               },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 15),
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 10, right: 15),
                                 child: Icon(
                                   Icons.person_2_outlined,
                                   color: Color.fromARGB(255, 0, 0, 0),
@@ -185,15 +184,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Container(
+                      const SizedBox(
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30, top: 4, bottom: 4),
-                          child: const Text(
+                          padding: EdgeInsets.only(left: 30, top: 4, bottom: 4),
+                          child: Text(
                             'Kata Sandi',
                             textAlign: TextAlign.left,
                             style: TextStyle(
@@ -203,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 25, right: 25),
+                        padding: const EdgeInsets.only(left: 25, right: 25),
                         child: TextFormField(
                           key: const Key('password'),
                           controller: _passwordController,
@@ -218,11 +216,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.lightBlue),
+                              borderSide:
+                                  const BorderSide(color: Colors.lightBlue),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Color.fromARGB(255, 231, 240, 248),
                                 width: 2,
                               ), // Ubah warna outline saat tidak dalam keadaan fokus
@@ -493,15 +492,14 @@ class _MyHomePageState extends State<MyHomePage> {
       isLoading = true;
     });
     var data = {
-      'email': _usernameController.text,
+      'email': _emailController.text,
       'password': _passwordController.text
     };
 
     var res = await ResClient().authData(data, '/login');
     var body = json.decode(res.body);
-    print(body);
 
-    if (body["message"]) {
+    if (body["status"]) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
 
@@ -511,11 +509,22 @@ class _MyHomePageState extends State<MyHomePage> {
         MaterialPageRoute(builder: (context) => const Beranda()),
       );
     } else {
-      // _showMsg(body['message']);
+      var messageError = 'Cek Kembali Email / Password Anda';
+      showMsg(messageError);
     }
 
     setState(() {
       isLoading = false;
     });
+  }
+
+  Future<void> showMsg(messageError) async {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Oooopsss... Terjadi Masalah'),
+              content: Text(messageError),
+            ));
+    return;
   }
 }
