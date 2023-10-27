@@ -4,7 +4,11 @@ import 'beranda.dart';
 import 'package:intl/intl.dart';
 
 class Order extends StatefulWidget {
-  const Order({super.key});
+  const Order({Key? key, required this.nama, required this.kode})
+      : super(key: key);
+
+  final String nama;
+  final String kode;
 
   @override
   State<Order> createState() => _OrderState();
@@ -627,11 +631,11 @@ class _OrderState extends State<Order> {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 1),
-                        child: Text('Perawatan AC',
+                      Padding(
+                        padding: const EdgeInsets.only(left: 1),
+                        child: Text(widget.nama,
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 15)),
+                            style: const TextStyle(fontSize: 15)),
                       )
                     ],
                   )),

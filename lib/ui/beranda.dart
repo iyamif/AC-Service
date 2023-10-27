@@ -24,24 +24,6 @@ class _BerandaState extends State<Beranda> {
     FourPage(),
   ];
 
-  Future<void> _order() async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Order(),
-      ),
-    );
-  }
-
-  Future<void> _test() async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => tesTing(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -82,11 +64,11 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
 
-    Future<void> _order() async {
+    Future<void> _order(nama, kode) async {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Order(),
+          builder: (context) => Order(nama: nama, kode: kode),
         ),
       );
     }
@@ -539,7 +521,7 @@ class FirstPage extends StatelessWidget {
                                     ),
                                     child: CupertinoButton(
                                       onPressed: () {
-                                        _order();
+                                        _order('PERAWATAN AC', 'R01');
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -547,7 +529,7 @@ class FirstPage extends StatelessWidget {
                                         children: [
                                           IconButton(
                                             onPressed: () {
-                                              _order();
+                                              _order('PERAWATAN AC', 'R01');
                                             },
                                             icon: Image.asset(
                                               'assets/images/perawatan.png',
@@ -589,14 +571,19 @@ class FirstPage extends StatelessWidget {
                                     ),
                                     child: CupertinoButton(
                                       onPressed: () {
-                                        _test();
+                                        _order('PERAWATAN DAN TAMBAH FREON',
+                                            'R02');
                                       },
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              _order(
+                                                  'PERAWATAN DAN TAMBAH FREON',
+                                                  'R02');
+                                            },
                                             icon: Image.asset(
                                               'assets/images/tambah_freon.png',
                                               width: screenWidth * 0.6,
@@ -652,13 +639,17 @@ class FirstPage extends StatelessWidget {
                                     ),
                                     child: CupertinoButton(
                                       pressedOpacity: 0.2,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _order('PEMASANGAN AC', 'R03');
+                                      },
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              _order('PEMASANGAN AC', 'R03');
+                                            },
                                             icon: Image.asset(
                                               'assets/images/service.png',
                                               width: screenWidth * 0.6,
@@ -699,13 +690,18 @@ class FirstPage extends StatelessWidget {
                                     ),
                                     child: CupertinoButton(
                                       pressedOpacity: 0.2,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _order('BONGKAR DAN PASANG AC', 'R04');
+                                      },
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              _order('BONGKAR DAN PASANG AC',
+                                                  'R04');
+                                            },
                                             icon: Image.asset(
                                               'assets/images/house.png',
                                               width: screenWidth * 0.6,
