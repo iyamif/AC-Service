@@ -19,8 +19,6 @@ class _OrderState extends State<Order> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   TextEditingController dateController = TextEditingController();
-  final DateFormat _dateFormatter = DateFormat('EEEE, dd/MM/yyyy');
-  final DateFormat _timeFormatter = DateFormat('EEEE, dd/MM/yyyy');
   TextEditingController timeController = TextEditingController();
 
   List<bool> isSelected = [
@@ -550,11 +548,12 @@ class _OrderState extends State<Order> {
               Container(
                 //    height: 100,
                 // color: Colors.white,
-                padding: const EdgeInsets.only(left: 8, right: 8),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 3),
                 child: TextFormField(
                   key: const Key('username'),
                   controller: deskriptionController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxLines: null,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '* wajib diisi';
@@ -576,8 +575,10 @@ class _OrderState extends State<Order> {
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.only(
-                        top: 0, right: 30, bottom: 100, left: 15),
+                        top: 50, right: 30, bottom: 10, left: 15),
                     hintText: 'Masukan deskripsi kerusakan disini',
+                    //  hintStyle: TextStyle(color: Colors.black)
+
                     // prefixIcon: GestureDetector(
                     //   onTap: () {
                     //     // setState(() {
@@ -614,28 +615,31 @@ class _OrderState extends State<Order> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                   height: 60,
-                  width: 100,
+                  width: 250,
                   //  color: Colors.amber,
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding:
-                            const EdgeInsets.only(top: 10, left: 2, bottom: 3),
+                        padding: const EdgeInsets.only(top: 10, bottom: 3),
                         child: Container(
                           width: double.infinity,
                           child: const Text(
                             'Kategori :',
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 15),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 1),
+                      Container(
+                        //  padding: EdgeInsets.only(left: 10),
+                        width: double.infinity,
+                        //   color: Colors.amber,
                         child: Text(widget.nama,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 15)),
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 18, 0, 120))),
                       )
                     ],
                   )),
