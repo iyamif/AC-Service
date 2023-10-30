@@ -34,7 +34,7 @@ class _BerandaState extends State<Beranda> {
     _selectedPageIndex = 0;
     super.initState();
     _pages = [
-      Dashboard(),
+      const Dashboard(),
       ThirdPage(),
       SecondPage(),
       Profile(),
