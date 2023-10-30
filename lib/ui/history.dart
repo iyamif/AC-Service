@@ -11,6 +11,8 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
+    final List<String> data = List.generate(20, (index) => 'Item $index');
+
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double screenWidth = mediaQueryData.size.width;
 
@@ -67,115 +69,14 @@ class _HistoryState extends State<History> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.transparent,
-                          border: Border.all(width: 1)),
-                      child: const Padding(
+                          border: Border.all(width: 0.2)),
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.logout,
-                          color: Color.fromARGB(255, 1, 5, 122),
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 280,
-                      //   color: Colors.amber,
-                      child: Text(
-                        'Perawatan AC',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                onPressed: () {},
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 8, right: 8),
-              child: Divider(
-                height: 2,
-                color: Colors.grey,
-              ),
-            ),
-            SizedBox(
-              width: screenWidth,
-              child: CupertinoButton(
-                color: Colors.white,
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 60,
-                      //   color: Colors.transparent,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent,
-                          border: Border.all(width: 1)),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.logout,
-                          color: Color.fromARGB(255, 1, 5, 122),
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 280,
-                      //   color: Colors.amber,
-                      child: Text(
-                        'Perawatan AC',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                onPressed: () {},
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 8, right: 8),
-              child: Divider(
-                height: 2,
-                color: Colors.grey,
-              ),
-            ),
-            SizedBox(
-              width: screenWidth,
-              child: CupertinoButton(
-                color: Colors.white,
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 60,
-                      //   color: Colors.transparent,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent,
-                          border: Border.all(width: 1, color: Colors.grey)),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.ios_share,
-                          color: Color.fromARGB(255, 1, 5, 122),
-                          size: 20,
+                        child: Image.asset(
+                          'assets/images/perawatan.png',
+                          width: 30,
+                          height: 30,
+                          //  color: Color.fromARGB(255, 1, 5, 122),
                         ),
                       ),
                     ),
@@ -220,13 +121,14 @@ class _HistoryState extends State<History> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.transparent,
-                          border: Border.all(width: 1, color: Colors.grey)),
-                      child: const Padding(
+                          border: Border.all(width: 0.2)),
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.logout,
-                          color: Color.fromARGB(255, 1, 5, 122),
-                          size: 20,
+                        child: Image.asset(
+                          'assets/images/tambah_freon.png',
+                          width: 30,
+                          height: 30,
+                          //  color: Color.fromARGB(255, 1, 5, 122),
                         ),
                       ),
                     ),
@@ -234,7 +136,7 @@ class _HistoryState extends State<History> {
                       width: 280,
                       //   color: Colors.amber,
                       child: Text(
-                        'Perawatan AC',
+                        'Perawatan & Tambah freon',
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -250,6 +152,138 @@ class _HistoryState extends State<History> {
                 onPressed: () {},
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: Divider(
+                height: 2,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(
+              width: screenWidth,
+              child: CupertinoButton(
+                color: Colors.white,
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 60,
+                      //   color: Colors.transparent,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                          border: Border.all(width: 0.2)),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/images/service.png',
+                          width: 30,
+                          height: 30,
+                          //  color: Color.fromARGB(255, 1, 5, 122),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 280,
+                      //   color: Colors.amber,
+                      child: Text(
+                        'Pemasangan AC',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: Divider(
+                height: 2,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(
+              width: screenWidth,
+              child: CupertinoButton(
+                color: Colors.white,
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 60,
+                      //   color: Colors.transparent,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                          border: Border.all(width: 0.2)),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/images/house.png',
+                          width: 30,
+                          height: 30,
+                          //  color: Color.fromARGB(255, 1, 5, 122),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 280,
+                      //   color: Colors.amber,
+                      child: Text(
+                        'Bongkar & Pasang AC',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Riwayat Pesanan'),
+                  TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Tandai sudah di baca',
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 2, 57, 153)),
+                      ))
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 300,
+              width: 200,
+              child: Column(children: [
+                Text('Daftar Item:'),
+                Expanded(child: ListView.builder(itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(data[index]),
+                  );
+                })),
+              ]),
+            )
           ],
         ),
       ),

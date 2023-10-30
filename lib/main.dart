@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teknisi/services/res_client.dart';
 import 'package:teknisi/ui/beranda.dart';
+import 'package:teknisi/ui/profile/signup.dart';
 import 'package:teknisi/ui/utils.dart';
 
 void main() async {
@@ -231,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             contentPadding: const EdgeInsets.only(
                                 top: 0, right: 30, bottom: 0, left: 15),
                             hintText: 'masukan password ',
-                            prefixIcon: GestureDetector(
+                            suffixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {
                                   showPassword = !showPassword;
@@ -241,11 +242,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 15),
                                 child: Icon(
-                                  Icons.lock_outline,
-                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  showPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  //  color: Color.fromARGB(255, 0, 0, 0),
                                   size: 20,
                                 ),
                               ),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.lock_clock_outlined,
+                              color: Colors.grey,
+                              size: 20,
                             ),
                           ),
                         ),
@@ -338,7 +346,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       fontSize: 13),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      _showBottomSheet(context);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Signup()),
+                                      );
                                     })
                             ])),
                           ),
@@ -487,17 +500,28 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void log() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const Beranda()),
+    );
+  }
+
   void _login() async {
     setState(() {
       isLoading = true;
     });
+
     var data = {
       'email': _emailController.text,
       'password': _passwordController.text
     };
 
+    print(data);
+
     var res = await ResClient().authData(data, '/login');
     var body = json.decode(res.body);
+    print(body['status']);
 
     if (body["status"]) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
