@@ -4,6 +4,8 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:teknisi/ui/history.dart';
 import 'package:teknisi/ui/order.dart';
 import 'package:teknisi/ui/test.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -135,8 +137,8 @@ class _DashboardState extends State<Dashboard> {
                   padding: const EdgeInsets.only(
                       top: 8, left: 8, right: 8, bottom: 4),
                   child: Container(
-                    width: screenWidth * 0.9,
-                    height: 80,
+                    // width: screenWidth * 0.9,
+                    // height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: const Color.fromARGB(255, 255, 255, 255),
@@ -151,6 +153,164 @@ class _DashboardState extends State<Dashboard> {
                           spreadRadius: 1, // Sebaran bayangan
                         ),
                       ],
+                    ),
+                    child: CupertinoButton(
+                      onPressed: () {},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SpinKitCircle(
+                            size: 50,
+                            color: Color.fromARGB(255, 157, 1, 58),
+                            duration: Duration(seconds: 1000),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Menunggu konfirmasi Teknisi . . . .',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 10),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8, left: 8, right: 8, bottom: 4),
+                  child: Container(
+                    // width: screenWidth * 0.9,
+                    // height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      //   border: Border.all(width: 1.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(
+                              255, 240, 237, 237), // Warna bayangan
+                          offset: Offset(0,
+                              1), // Perpindahan bayangan horizontal dan vertikal
+                          blurRadius: 3, // Radius blur bayangan
+                          spreadRadius: 1, // Sebaran bayangan
+                        ),
+                      ],
+                    ),
+                    child: CupertinoButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(
+                            //   height: 10,
+                            child: Text('status order :'),
+                          ),
+                          SizedBox(
+                            //   height: 10,
+                            child: Text('status order :'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8, left: 8, right: 8, bottom: 4),
+                  child: Container(
+                    // width: screenWidth * 0.9,
+                    // height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      //   border: Border.all(width: 1.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(
+                              255, 240, 237, 237), // Warna bayangan
+                          offset: Offset(0,
+                              1), // Perpindahan bayangan horizontal dan vertikal
+                          blurRadius: 3, // Radius blur bayangan
+                          spreadRadius: 1, // Sebaran bayangan
+                        ),
+                      ],
+                    ),
+                    child: CupertinoButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // const Icon(
+                          //   Icons.person,
+                          //   size: 70,
+                          //   color: Color.fromARGB(255, 6, 3, 147),
+                          // ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: 260,
+                            //   color: Colors.amber,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 260,
+                                  child: Text(
+                                    'PT. AVALOGIX JAKARTA',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 260,
+                                  child: Text(
+                                    'Maintenance Service :',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 150, 150, 150),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 260,
+                                  child: Text(
+                                    '20 Januari 2023',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 6, 3, 147),
+                                    ),
+                                  ),
+                                ),
+                                // SizedBox(
+                                //   width: 2690,
+                                //   child: Text(
+                                //     'TEXT',
+                                //     style: TextStyle(
+                                //       color: Color.fromARGB(255, 6, 3, 147),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          CircularPercentIndicator(
+                            radius: 35,
+                            lineWidth: 13,
+                            percent: 0.6,
+                            progressColor: Color.fromARGB(255, 6, 3, 147),
+                            backgroundColor:
+                                const Color.fromARGB(255, 220, 220, 220),
+                            circularStrokeCap: CircularStrokeCap.round,
+                            center: const Text(
+                              '60%',
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

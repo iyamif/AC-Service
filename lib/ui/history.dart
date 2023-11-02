@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teknisi/ui/beranda.dart';
 
 class History extends StatefulWidget {
   const History({super.key});
@@ -11,10 +12,15 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
-    final List<String> data = List.generate(20, (index) => 'Item $index');
-
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double screenWidth = mediaQueryData.size.width;
+    List<List<String>> listsData = [
+      ['Item 1', 'Item 2', 'Item 3'],
+      ['Item A', 'Item B', 'Item C', 'Item D'],
+      ['Item X', 'Item Y', 'Item Z'],
+      ['Item P', 'Item Q', 'Item R'],
+      ['Item M', 'Item N', 'Item O'],
+    ];
 
     return Scaffold(
       body: SafeArea(
@@ -32,7 +38,14 @@ class _HistoryState extends State<History> {
                         color: Color.fromARGB(255, 9, 31, 110),
                         size: 20,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Beranda(),
+                          ),
+                        );
+                      },
                     )),
                 const Text(
                   'Riwayat',
@@ -71,7 +84,7 @@ class _HistoryState extends State<History> {
                           color: Colors.transparent,
                           border: Border.all(width: 0.2)),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
                           'assets/images/perawatan.png',
                           width: 30,
@@ -123,7 +136,7 @@ class _HistoryState extends State<History> {
                           color: Colors.transparent,
                           border: Border.all(width: 0.2)),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
                           'assets/images/tambah_freon.png',
                           width: 30,
@@ -175,7 +188,7 @@ class _HistoryState extends State<History> {
                           color: Colors.transparent,
                           border: Border.all(width: 0.2)),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
                           'assets/images/service.png',
                           width: 30,
@@ -227,7 +240,7 @@ class _HistoryState extends State<History> {
                           color: Colors.transparent,
                           border: Border.all(width: 0.2)),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
                           'assets/images/house.png',
                           width: 30,
@@ -257,14 +270,15 @@ class _HistoryState extends State<History> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('Riwayat Pesanan'),
+                  const Text('Riwayat Pesanan'),
                   TextButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         'Tandai sudah di baca',
                         style:
                             TextStyle(color: Color.fromARGB(255, 2, 57, 153)),
@@ -273,17 +287,53 @@ class _HistoryState extends State<History> {
               ),
             ),
             SizedBox(
-              height: 300,
-              width: 200,
-              child: Column(children: [
-                Text('Daftar Item:'),
-                Expanded(child: ListView.builder(itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(data[index]),
-                  );
-                })),
-              ]),
+              height: 400,
+              width: screenWidth,
+              child: ListView.builder(
+                itemCount: listsData.length,
+                itemBuilder: (context, index) {
+                  return CardList(listData: listsData[index]);
+                },
+              ),
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CardList extends StatelessWidget {
+  final List<String> listData;
+
+  CardList({required this.listData});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Card(
+        margin: const EdgeInsets.only(top: 2),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(
+                'Judul ${listData[0]}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const Divider(
+              height: 0.5,
+            ),
+            ListView.builder(
+              itemCount: listData.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(listData[index]),
+                );
+              },
+            ),
           ],
         ),
       ),
