@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   Future<void> _beranda() async {
     Navigator.push(
       context,
@@ -250,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.lock_clock_outlined,
                               color: Colors.grey,
                               size: 20,
@@ -262,24 +263,24 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25),
+                            padding: const EdgeInsets.only(left: 25, right: 25),
                             child: TextButton(
                                 onPressed: () {},
-                                child: Text('Lupa Password ?')),
+                                child: const Text('Lupa Password ?')),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 25, right: 8),
+                            padding: const EdgeInsets.only(left: 25, right: 8),
                             child: TextButton(
                               onPressed: () async {
                                 _login();
                               },
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(255, 1, 11, 147)),
+                                    const Color.fromARGB(255, 1, 11, 147)),
                                 padding: MaterialStateProperty.all(
                                     const EdgeInsets.only(
                                         left: 113,
@@ -296,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         strokeWidth: 1.5,
                                       ),
                                     )
-                                  : Text(
+                                  : const Text(
                                       'Masuk',
                                       style: TextStyle(
                                           color: Colors.white,
@@ -312,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () async {},
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(255, 1, 11, 147)),
+                                    const Color.fromARGB(255, 1, 11, 147)),
                                 padding: MaterialStateProperty.all(
                                     const EdgeInsets.all(10))),
                             child: Builder(builder: (context) {
@@ -368,145 +369,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _showBottomSheet(BuildContext context) {
-    TextEditingController _textEditingController = TextEditingController();
-
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30.0), // Atur radius top sesuai kebutuhan Anda
-        ),
-      ),
-      //  backgroundColor: Color.fromARGB(255, 241, 243, 245),
-      builder: (BuildContext context) {
-        return Container(
-          //  height: d
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text(
-                "REGISTRASI AKUN",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 1, 78, 117)),
-              ),
-              const SizedBox(height: 9.0),
-              TextFormField(
-                controller: _textEditingController,
-                style: SafeGoogleFont('Inter',
-                    fontStyle: FontStyle.italic,
-                    color: const Color.fromARGB(255, 7, 165, 222),
-                    fontSize: 13.0),
-                decoration: const InputDecoration(
-                  labelText: "Nama Lengkap",
-                  labelStyle: TextStyle(color: Color.fromARGB(255, 1, 96, 113)),
-                ),
-              ),
-              const SizedBox(height: 9.0),
-              TextFormField(
-                controller: _textEditingController,
-                style: SafeGoogleFont('Inter',
-                    fontStyle: FontStyle.italic,
-                    color: const Color(0xffbebdbd),
-                    fontSize: 13.0),
-                decoration: const InputDecoration(
-                  labelText: "Email",
-                  labelStyle:
-                      TextStyle(color: Color.fromARGB(255, 176, 176, 176)),
-                ),
-              ),
-              const SizedBox(height: 9.0),
-              TextFormField(
-                controller: _textEditingController,
-                style: SafeGoogleFont('Inter',
-                    fontStyle: FontStyle.italic,
-                    color: const Color(0xffbebdbd),
-                    fontSize: 13.0),
-                decoration: const InputDecoration(
-                  labelText: "No Handphone/Whatsapp",
-                  labelStyle:
-                      TextStyle(color: Color.fromARGB(255, 176, 176, 176)),
-                ),
-              ),
-              const SizedBox(height: 9.0),
-              TextFormField(
-                controller: _textEditingController,
-                style: SafeGoogleFont('Inter',
-                    fontStyle: FontStyle.italic,
-                    color: const Color(0xffbebdbd),
-                    fontSize: 13.0),
-                decoration: const InputDecoration(
-                  labelText: "Password",
-                  labelStyle:
-                      TextStyle(color: Color.fromARGB(255, 176, 176, 176)),
-                ),
-              ),
-              const SizedBox(height: 9.0),
-              TextFormField(
-                controller: _textEditingController,
-                style: SafeGoogleFont('Inter',
-                    fontStyle: FontStyle.italic,
-                    color: const Color(0xffbebdbd),
-                    fontSize: 13.0),
-                decoration: const InputDecoration(
-                  labelText: "Teknisi Code",
-                  labelStyle:
-                      TextStyle(color: Color.fromARGB(255, 176, 176, 176)),
-                ),
-              ),
-              const SizedBox(height: 9.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context); // Tutup bottom sheet
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(255, 4, 74, 124)),
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
-                  // minimumSize: MaterialStateProperty.all(Size(
-                  //   25 * fem,
-                  //   25 * fem,
-                  // )),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Atur radius sesuai kebutuhan
-                    ),
-                  ),
-                  minimumSize: MaterialStateProperty.all(Size(
-                    325 * fem,
-                    30 * fem,
-                  )),
-                ),
-                child: const Text(
-                  "DAFTAR",
-                  style: TextStyle(
-                    fontSize: 20, // Atur ukuran font
-                    // Anda juga dapat menambahkan properti lain seperti fontWeight, color, dll.
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void log() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Beranda()),
-    );
-  }
-
   void _login() async {
     setState(() {
       isLoading = true;
@@ -517,11 +379,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'password': _passwordController.text
     };
 
-    print(data);
-
     var res = await ResClient().authData(data, '/login');
     var body = json.decode(res.body);
-    print(body['status']);
 
     if (body["status"]) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
