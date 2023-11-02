@@ -24,4 +24,10 @@ class ResClient {
           'Accept': 'application/json'
         });
   }
+
+  //ws untuk logout
+  logout(apiUrl, token) async {
+    var fullUrl = _url + apiUrl;
+    return await http.post(Uri.parse(fullUrl), headers: _setHeaders(token));
+  }
 }
