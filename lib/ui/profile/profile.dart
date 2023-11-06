@@ -120,7 +120,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(15),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -129,14 +129,56 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                 ),
               ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Container(
+            //     width: screenWidth,
+            //     height: screenHeight * 0.1,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(10),
+            //       color: Color.fromARGB(255, 92, 77, 167),
+            //       boxShadow: const [
+            //         BoxShadow(
+            //           color:
+            //               Color.fromARGB(255, 240, 237, 237), // Warna bayangan
+            //           offset: Offset(
+            //               0, 1), // Perpindahan bayangan horizontal dan vertikal
+            //           blurRadius: 3, // Radius blur bayangan
+            //           spreadRadius: 1, // Sebaran bayangan
+            //         ),
+            //       ],
+            //     ),
+            //     child: const Center(
+            //         child: Text(
+            //       'TEXT HERE',
+            //       style: TextStyle(
+            //           fontSize: 30,
+            //           color: Colors.white,
+            //           fontWeight: FontWeight.bold),
+            //     )),
+            //   ),
+            // ),
+            // const Padding(
+            //   padding: EdgeInsets.all(8.0),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text(
+            //       'Preferensi',
+            //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 130,
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: screenWidth,
-                height: screenHeight * 0.1,
+                //     height: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: const Color.fromARGB(255, 93, 77, 167),
+                  color: Colors.white,
                   boxShadow: const [
                     BoxShadow(
                       color:
@@ -148,124 +190,253 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                     ),
                   ],
                 ),
-                child: const Center(
-                    child: Text(
-                  'TEXT HERE',
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                )),
+                child: Column(
+                  children: [
+                    CupertinoButton(
+                      padding: const EdgeInsets.all(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60,
+                            color: Colors.transparent,
+                            child: const Icon(Icons.person_add,
+                                color: Color.fromARGB(255, 2, 18, 126)),
+                          ),
+                          Container(
+                            width: 250,
+                            color: Colors.transparent,
+                            child: const Text(
+                              'Edit Profile',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 15, left: 15),
+                      child: Divider(
+                        height: 10,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    CupertinoButton(
+                      padding: const EdgeInsets.all(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60,
+                            color: Colors.transparent,
+                            child: const Icon(Icons.question_mark_rounded,
+                                color: Color.fromARGB(255, 2, 18, 126)),
+                          ),
+                          Container(
+                            width: 250,
+                            color: Colors.transparent,
+                            child: const Text(
+                              'Pusat Bantuan',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 15, left: 15),
+                      child: Divider(
+                        height: 10,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    CupertinoButton(
+                      padding: const EdgeInsets.all(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60,
+                            color: Colors.transparent,
+                            child: const Icon(Icons.my_library_books,
+                                color: Color.fromARGB(255, 2, 18, 126)),
+                          ),
+                          Container(
+                            width: 250,
+                            color: Colors.transparent,
+                            child: const Text(
+                              'Tentang',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 15, left: 15),
+                      child: Divider(
+                        height: 10,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    CupertinoButton(
+                      padding: const EdgeInsets.all(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60,
+                            color: Colors.transparent,
+                            child: const Icon(Icons.call,
+                                color: Color.fromARGB(255, 2, 18, 126)),
+                          ),
+                          Container(
+                            width: 250,
+                            color: Colors.transparent,
+                            child: const Text(
+                              'Hubungi Kami',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Preferensi',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  //   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  width: screenWidth,
-                  //     height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(
-                            255, 240, 237, 237), // Warna bayangan
-                        offset: Offset(0,
-                            1), // Perpindahan bayangan horizontal dan vertikal
-                        blurRadius: 3, // Radius blur bayangan
-                        spreadRadius: 1, // Sebaran bayangan
+                width: screenWidth,
+                //     height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color:
+                          Color.fromARGB(255, 240, 237, 237), // Warna bayangan
+                      offset: Offset(
+                          0, 1), // Perpindahan bayangan horizontal dan vertikal
+                      blurRadius: 3, // Radius blur bayangan
+                      spreadRadius: 1, // Sebaran bayangan
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    CupertinoButton(
+                      padding: const EdgeInsets.all(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60,
+                            color: Colors.transparent,
+                            child: const Icon(Icons.language_outlined,
+                                color: Color.fromARGB(255, 2, 18, 126)),
+                          ),
+                          Container(
+                            width: 250,
+                            color: Colors.transparent,
+                            child: const Text(
+                              'Bahasa',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      CupertinoButton(
-                        padding: const EdgeInsets.all(10),
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 60,
-                              color: Colors.transparent,
-                              child: const Icon(
-                                Icons.language_outlined,
-                                color: Colors.lightBlueAccent,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 15, left: 15),
+                      child: Divider(
+                        height: 10,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    CupertinoButton(
+                      padding: const EdgeInsets.all(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      onPressed: () {
+                        popupLogout();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60,
+                            color: Colors.transparent,
+                            child: const Icon(Icons.logout,
+                                color: Color.fromARGB(255, 2, 18, 126)),
+                          ),
+                          Container(
+                            width: 250,
+                            color: Colors.transparent,
+                            child: const Text(
+                              'Keluar',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
                               ),
                             ),
-                            Container(
-                              width: 250,
-                              color: Colors.transparent,
-                              child: const Text(
-                                'Bahasa',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20,
-                              color: Colors.black,
-                            ),
-                          ],
-                        ),
+                          ),
+                          // Icon(
+                          //   Icons.arrow_forward_ios,
+                          //   size: 20,
+                          //   color: Colors.black,
+                          // ),
+                        ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 15, left: 15),
-                        child: Divider(
-                          height: 10,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      CupertinoButton(
-                        padding: const EdgeInsets.all(10),
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        onPressed: () {
-                          popupLogout();
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 60,
-                              color: Colors.transparent,
-                              child: const Icon(
-                                Icons.logout,
-                                color: Colors.lightBlueAccent,
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              color: Colors.transparent,
-                              child: const Text(
-                                'Keluar',
-                                style: TextStyle(
-                                  color: Colors.lightBlueAccent,
-                                ),
-                              ),
-                            ),
-                            // Icon(
-                            //   Icons.arrow_forward_ios,
-                            //   size: 20,
-                            //   color: Colors.black,
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Container()
           ]),
         ),
       ),

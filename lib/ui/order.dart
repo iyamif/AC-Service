@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teknisi/ui/notif.dart';
 import 'beranda.dart';
 import 'package:intl/intl.dart';
 
@@ -36,6 +37,8 @@ class _OrderState extends State<Order> {
   final TextEditingController textController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
   final TextEditingController deskriptionController = TextEditingController();
+
+  int notificationCount = 3;
 
   Future<void> _selectDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -129,7 +132,7 @@ class _OrderState extends State<Order> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
+                    SizedBox(
                       width: screenWidth * 0.13,
                       //  decoration: BoxDecoration(border: Border.all()),
                       child: IconButton(
@@ -144,7 +147,7 @@ class _OrderState extends State<Order> {
                         },
                       ),
                     ),
-                    Container(
+                    SizedBox(
                         width: screenWidth * 0.6,
                         //  decoration: BoxDecoration(border: Border.all()),
                         child: const Center(
@@ -154,13 +157,20 @@ class _OrderState extends State<Order> {
                                 color: Color.fromARGB(255, 106, 106, 106),
                               )),
                         )),
-                    IconButton(
-                      onPressed: () {},
+                    Toggle(
                       icon: const Icon(
-                        Icons.notifications_none_rounded,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                        Icons.notifications_outlined,
                         size: 30,
                       ),
+                      badgeCount: notificationCount,
+                      onPressed: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const History(),
+                        //   ),
+                        // );
+                      },
                     ),
                   ],
                 ),
@@ -322,7 +332,7 @@ class _OrderState extends State<Order> {
                                     ),
                                   ),
                                 ),
-                                const Text('Rumah')
+                                const Text('Kost')
                               ],
                             ),
                           ),
@@ -663,6 +673,50 @@ class _OrderState extends State<Order> {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ToggleBadgeNotification extends StatelessWidget {
+  final Icon icon;
+  final int badgeCount;
+  final VoidCallback onPressed;
+
+  ToggleBadgeNotification(
+      {required this.icon, required this.badgeCount, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: InkWell(
+        onTap: onPressed,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            icon,
+            if (badgeCount > 0)
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red, // Warna latar belakang badge notifikasi
+                  ),
+                  child: Text(
+                    badgeCount.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
