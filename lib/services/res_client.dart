@@ -30,4 +30,10 @@ class ResClient {
     var fullUrl = _url + apiUrl;
     return await http.post(Uri.parse(fullUrl), headers: _setHeaders(token));
   }
+
+  //ws untuk post orders
+  orders(apiUrl, token) async {
+    var fullUrl = _url + apiUrl;
+    return await http.post(Uri.parse(fullUrl), headers: _setHeaders(token));
+  }
 }
