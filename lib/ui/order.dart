@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:teknisi/services/location_service.dart';
 import 'package:teknisi/ui/notif.dart';
 import 'beranda.dart';
 import 'package:intl/intl.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Order extends StatefulWidget {
   const Order({Key? key, required this.nama, required this.kode})
@@ -16,6 +20,10 @@ class Order extends StatefulWidget {
 }
 
 class _OrderState extends State<Order> {
+  late double _destinationLatitude;
+  late double _destinationLongitude;
+  String? _currentAddress;
+  Position? _currentPosition;
   final _formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -152,6 +160,87 @@ class _OrderState extends State<Order> {
     //     _isButtonEnabled = false;
     //   }
     // });
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _textController.text =
+            ' ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  void _getCurrentDateTime() {
+    setState(() {
+      selectedDate = DateTime.now();
+      _updateTextField();
+    });
+  }
+
+  void _updateTextField() {
+    String formattedDateTime =
+        DateFormat('EEEE, dd-MM-yyyy').format(selectedDate);
+    String formattedTime = DateFormat('hh:mm').format(selectedDate);
+    dateController.text = formattedDateTime;
+    timeController.text = formattedTime;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    _handleLocationPermission();
+    _getCurrentPosition();
+    _getCurrentDateTime();
   }
 
   @override
@@ -394,56 +483,166 @@ class _OrderState extends State<Order> {
               ),
               Container(
                 padding: const EdgeInsets.only(left: 8, right: 8),
-                child: TextFormField(
-                  key: const Key('location'),
-                  controller: _textController,
-                  onChanged: (value) {
-                    _checkTextField(); // Cek TextField saat nilai berubah
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return '* wajib diisi';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.lightBlue),
+                child: TypeAheadFormField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      // autofocus: true,
+                      controller: _textController,
+                      textCapitalization: TextCapitalization.characters,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(color: Colors.lightBlue),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 189, 190, 190),
+                              width: 1,
+                            ), // Ubah warna outline saat tidak dalam keadaan fokus
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.only(
+                              top: 0, right: 30, bottom: 0, left: 15),
+                          hintText: 'Lokasi saat ini',
+                          prefixIcon: GestureDetector(
+                            onTap: () {
+                              // setState(() {
+                              //   showPassword = !showPassword;
+                              // });
+                            },
+                            child: Padding(
+                              // padding: const EdgeInsets.only(
+                              //     left: 10, right: 15, top: 10, bottom: 10),
+                              padding: const EdgeInsets.all(15),
+                              child: Image.asset(
+                                'assets/images/send.png',
+                                width: 10,
+                                height: 10,
+                              ),
+                            ),
+                          ),
+                          suffixIcon: _textController.text.isNotEmpty
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _textController.clear();
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.clear_outlined,
+                                    size: 15,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              : null),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 189, 190, 190),
-                        width: 1,
-                      ), // Ubah warna outline saat tidak dalam keadaan fokus
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.only(
-                        top: 0, right: 30, bottom: 0, left: 15),
-                    hintText: 'Lokasi saat ini',
-                    prefixIcon: GestureDetector(
-                      onTap: () {
-                        // setState(() {
-                        //   showPassword = !showPassword;
-                        // });
-                      },
-                      child: Padding(
-                        // padding: const EdgeInsets.only(
-                        //     left: 10, right: 15, top: 10, bottom: 10),
-                        padding: const EdgeInsets.all(15),
-                        child: Image.asset(
-                          'assets/images/send.png',
-                          width: 10,
-                          height: 10,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '* wajib diisi';
+                      }
+
+                      return null;
+                    },
+                    onSuggestionSelected: (suggestion) async {
+                      textController.text = '$suggestion';
+                      var result =
+                          await LocationService().getTextSearch('$suggestion');
+                      _destinationLatitude =
+                          result['results'][0]['geometry']['location']['lat'];
+                      _destinationLongitude =
+                          result['results'][0]['geometry']['location']['lng'];
+                    },
+                    itemBuilder: (context, itemData) {
+                      return ListTile(
+                        title: Text('$itemData'),
+                      );
+                    },
+                    suggestionsCallback: (pattern) async {
+                      if (pattern.length > 1) {
+                        var predictions =
+                            await LocationService().getAutocomplete(pattern);
+
+                        return predictions['predictions']
+                            .map((e) => e['description']);
+                      }
+
+                      return [];
+                    }),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              // Container(
+              //   padding: const EdgeInsets.only(left: 8, right: 8),
+              //   child: TextFormField(
+              //     key: const Key('location'),
+              //     controller: _textController,
+
+              //     // onChanged: (value) {
+              //     //   _checkTextField(); // Cek TextField saat nilai berubah
+              //     // },
+              //     autovalidateMode: AutovalidateMode.onUserInteraction,
+              //     validator: (value) {
+              //       if (value == null || value.isEmpty) {
+              //         return '* wajib diisi';
+              //       }
+              //       return null;
+              //     },
+              //     decoration: InputDecoration(
+              //         border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(10),
+              //           borderSide: const BorderSide(color: Colors.lightBlue),
+              //         ),
+              //         enabledBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(10),
+              //           borderSide: const BorderSide(
+              //             color: Color.fromARGB(255, 189, 190, 190),
+              //             width: 1,
+              //           ), // Ubah warna outline saat tidak dalam keadaan fokus
+              //         ),
+              //         filled: true,
+              //         fillColor: Colors.white,
+              //         contentPadding: const EdgeInsets.only(
+              //             top: 0, right: 30, bottom: 0, left: 15),
+              //         hintText: 'Lokasi saat ini',
+              //         prefixIcon: GestureDetector(
+              //           onTap: () {
+              //             // setState(() {
+              //             //   showPassword = !showPassword;
+              //             // });
+              //           },
+              //           child: Padding(
+              //             // padding: const EdgeInsets.only(
+              //             //     left: 10, right: 15, top: 10, bottom: 10),
+              //             padding: const EdgeInsets.all(15),
+              //             child: Image.asset(
+              //               'assets/images/send.png',
+              //               width: 10,
+              //               height: 10,
+              //             ),
+              //           ),
+              //         ),
+              //         suffixIcon: _textController.text.isNotEmpty
+              //             ? IconButton(
+              //                 onPressed: () {
+              //                   setState(() {
+              //                     _textController.clear();
+              //                   });
+              //                 },
+              //                 icon: const Icon(
+              //                   Icons.clear_outlined,
+              //                   size: 15,
+              //                   color: Colors.grey,
+              //                 ),
+              //               )
+              //             : null),
+              //   ),
+              // ),
               const SizedBox(
                 height: 10,
               ),
@@ -526,6 +725,10 @@ class _OrderState extends State<Order> {
                         onChanged: (value) {
                           _checkTextField(); // Cek TextField saat nilai berubah
                         },
+                        readOnly: true,
+                        onTap: () {
+                          _selectDate(context);
+                        },
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -562,13 +765,17 @@ class _OrderState extends State<Order> {
                   // SizedBox(
                   //   width: 10,
                   // ),
-                  Container(
+                  SizedBox(
                     width: screenWidth * 0.27,
                     height: 50,
                     child: TextFormField(
                       controller: timeController,
                       onChanged: (value) {
                         _checkTextField(); // Cek TextField saat nilai berubah
+                      },
+                      readOnly: true,
+                      onTap: () {
+                        _selectTime(context);
                       },
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -592,7 +799,6 @@ class _OrderState extends State<Order> {
                           onPressed: () => _selectTime(context),
                         ),
                       ),
-                      readOnly: true,
                     ),
                   )
                 ],
@@ -723,13 +929,14 @@ class _OrderState extends State<Order> {
                       //   color: const Color.fromARGB(255, 107, 107, 107),
                       ),
                   child: TextButton(
-                    onPressed: _isButtonEnabled
-                        ? () {
-                            // Aksi saat tombol ditekan
-                            sendDataToApi();
-                            print('Button Pressed');
-                          }
-                        : null,
+                    onPressed:
+                        //  _isButtonEnabled
+                        //     ? () async {
+                        // Aksi saat tombol ditekan
+                        sendDataToApi,
+                    //   print('Button Pressed');
+                    //   }
+                    //  : null,
                     child: const Text(
                       'order now',
                       style: TextStyle(color: Colors.white),
