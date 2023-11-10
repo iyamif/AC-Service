@@ -25,6 +25,7 @@ void main() async {
               title: 'Teknisi',
             )
           : const Beranda(),
+      locale: const Locale('en', 'US'), // Set locale to ensure 24-hour format
     ),
   );
 
@@ -118,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 25,
                 ),
                 Form(
                   key: _formKey,
@@ -132,9 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text(
                             'Email',
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 39, 155, 249),
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black),
                           ),
                         ),
                       ),
@@ -143,10 +142,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: TextFormField(
                           key: const Key('email'),
                           controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return '* wajib diisi';
+                            }
+                            bool emailValid = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value);
+
+                            if (!emailValid) {
+                              return 'Alamat email tidak sah.';
                             }
                             return null;
                           },
@@ -197,8 +204,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             'Kata Sandi',
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
@@ -253,7 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             prefixIcon: const Icon(
                               Icons.lock_clock_outlined,
-                              color: Colors.grey,
+                              color: Colors.black,
                               size: 20,
                             ),
                           ),

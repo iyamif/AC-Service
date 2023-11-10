@@ -23,7 +23,7 @@ class _OrderState extends State<Order> {
   TextEditingController timeController = TextEditingController();
 
   List<bool> isSelected = [
-    false,
+    true,
     false,
     false,
     false,
@@ -47,12 +47,13 @@ class _OrderState extends State<Order> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
         dateController.text =
             DateFormat('EEEE, dd-MM-yyyy').format(selectedDate);
       });
+    }
   }
 
   void selectOption(int index) {
@@ -62,16 +63,30 @@ class _OrderState extends State<Order> {
     setState(() {});
   }
 
+  // void _handleSelection(int index) {
+  //   setState(() {
+  //     isSelected[index] = !isSelected[index];
+  //     _isButtonEnabled = isSelected.any((isSelected) => isSelected);
+  //   });
+  // }
+
   Future<void> _selectTime(BuildContext context) async {
     final picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
     );
-    if (picked != null && picked != selectedTime)
+    if (picked != null && picked != selectedTime) {
       setState(() {
         selectedTime = picked;
         timeController.text = picked.format(context);
       });
+    }
   }
 
   void sendDataToApi() async {
@@ -111,6 +126,34 @@ class _OrderState extends State<Order> {
     // }
   }
 
+  TextEditingController _textController = TextEditingController();
+  bool _isButtonEnabled = false;
+
+  void _checkTextField() {
+    if (deskriptionController.text.isNotEmpty &&
+        _textController.text.isNotEmpty &&
+        detailController.text.isNotEmpty &&
+        dateController.text.isNotEmpty &&
+        timeController.text.isNotEmpty &&
+        isSelected.any((isSelected) => isSelected)) {
+      setState(() {
+        _isButtonEnabled = true;
+      });
+    } else {
+      setState(() {
+        _isButtonEnabled = false;
+      });
+    }
+    // setState(() {
+    //   if (deskriptionController.text.isNotEmpty &&
+    //       _textController.text.isNotEmpty) {
+    //     _isButtonEnabled = true;
+    //   } else {
+    //     _isButtonEnabled = false;
+    //   }
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -127,53 +170,50 @@ class _OrderState extends State<Order> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(
-                      width: screenWidth * 0.13,
-                      //  decoration: BoxDecoration(border: Border.all()),
-                      child: IconButton(
-                        icon: const Icon(Icons.keyboard_backspace_outlined),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Beranda(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                        width: screenWidth * 0.6,
-                        //  decoration: BoxDecoration(border: Border.all()),
-                        child: const Center(
-                          child: Text('ORDER MENU',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 106, 106, 106),
-                              )),
-                        )),
-                    Toggle(
-                      icon: const Icon(
-                        Icons.notifications_outlined,
-                        size: 30,
-                      ),
-                      badgeCount: notificationCount,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    width: screenWidth * 0.13,
+                    //  decoration: BoxDecoration(border: Border.all()),
+                    child: IconButton(
+                      icon: const Icon(Icons.keyboard_backspace_outlined),
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const History(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Beranda(),
+                          ),
+                        );
                       },
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                      width: screenWidth * 0.6,
+                      //  decoration: BoxDecoration(border: Border.all()),
+                      child: const Center(
+                        child: Text('ORDER MENU',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            )),
+                      )),
+                  Toggle(
+                    icon: const Icon(
+                      Icons.notifications_outlined,
+                      size: 30,
+                    ),
+                    badgeCount: notificationCount,
+                    onPressed: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const History(),
+                      //   ),
+                      // );
+                    },
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -355,8 +395,11 @@ class _OrderState extends State<Order> {
               Container(
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 child: TextFormField(
-                  key: const Key('username'),
-                  controller: textController,
+                  key: const Key('location'),
+                  controller: _textController,
+                  onChanged: (value) {
+                    _checkTextField(); // Cek TextField saat nilai berubah
+                  },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -409,6 +452,9 @@ class _OrderState extends State<Order> {
                 child: TextFormField(
                   key: const Key('username'),
                   controller: detailController,
+                  onChanged: (value) {
+                    _checkTextField(); // Cek TextField saat nilai berubah
+                  },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -466,7 +512,7 @@ class _OrderState extends State<Order> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
+                  SizedBox(
                     width: screenWidth * 0.62,
                     height: 50,
                     // decoration: BoxDecoration(
@@ -477,6 +523,9 @@ class _OrderState extends State<Order> {
                       padding: const EdgeInsets.only(left: 1, right: 3),
                       child: TextFormField(
                         controller: dateController,
+                        onChanged: (value) {
+                          _checkTextField(); // Cek TextField saat nilai berubah
+                        },
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -518,6 +567,9 @@ class _OrderState extends State<Order> {
                     height: 50,
                     child: TextFormField(
                       controller: timeController,
+                      onChanged: (value) {
+                        _checkTextField(); // Cek TextField saat nilai berubah
+                      },
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -563,6 +615,9 @@ class _OrderState extends State<Order> {
                   key: const Key('username'),
                   controller: deskriptionController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onChanged: (value) {
+                    _checkTextField(); // Cek TextField saat nilai berubah
+                  },
                   maxLines: null,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -662,9 +717,19 @@ class _OrderState extends State<Order> {
                   height: 40,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: const Color.fromARGB(255, 107, 107, 107)),
+                      color: _isButtonEnabled
+                          ? Color.fromARGB(255, 0, 51, 159)
+                          : Colors.grey
+                      //   color: const Color.fromARGB(255, 107, 107, 107),
+                      ),
                   child: TextButton(
-                    onPressed: sendDataToApi,
+                    onPressed: _isButtonEnabled
+                        ? () {
+                            // Aksi saat tombol ditekan
+                            sendDataToApi();
+                            print('Button Pressed');
+                          }
+                        : null,
                     child: const Text(
                       'order now',
                       style: TextStyle(color: Colors.white),

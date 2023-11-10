@@ -4,6 +4,7 @@ import 'package:teknisi/ui/dashboard/dashboard.dart';
 import 'package:teknisi/ui/history.dart';
 import 'package:teknisi/ui/profile/profile.dart';
 import 'package:teknisi/ui/search.dart';
+import 'package:teknisi/ui/test.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});

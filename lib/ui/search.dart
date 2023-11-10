@@ -130,13 +130,30 @@ class CardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    double screenWidth = mediaQueryData.size.width;
+    double screenHeigth = mediaQueryData.size.height;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(right: 8, left: 8, top: 4, bottom: 4),
-        child: Card(
-          margin: const EdgeInsets.all(4),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+        child: Container(
+          // margin: const EdgeInsets.all(4),
+          width: screenWidth * 0.9,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(255, 240, 237, 237), // Warna bayangan
+                offset: Offset(
+                    0, 1), // Perpindahan bayangan horizontal dan vertikal
+                blurRadius: 3, // Radius blur bayangan
+                spreadRadius: 1, // Sebaran bayangan
+              ),
+            ],
+          ),
+          child: CupertinoButton(
+            onPressed: () {},
             child: Column(
               children: [
                 ListTile(

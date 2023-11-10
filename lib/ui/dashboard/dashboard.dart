@@ -5,6 +5,7 @@ import 'package:teknisi/ui/history.dart';
 import 'package:teknisi/ui/order.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -175,7 +176,32 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     child: container
                         ? CupertinoButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 200,
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            const Text('Modal BottomSheet'),
+                                            ElevatedButton(
+                                              child: const Text(
+                                                  'Close BottomSheet'),
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
