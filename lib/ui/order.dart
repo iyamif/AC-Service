@@ -98,11 +98,12 @@ class _OrderState extends State<Order> {
   }
 
   void sendDataToApi() async {
-    final textValue = textController.text;
+    final textValue = _textController.text;
     final detailLocation = detailController.text;
     final description = deskriptionController.text;
     final date = dateController.text;
     final time = timeController.text;
+    final kategori = widget.nama;
     final selectedOptionIndex = isSelected.indexWhere((element) => element);
 
     if (selectedOptionIndex == -1) {
@@ -118,6 +119,7 @@ class _OrderState extends State<Order> {
       "date": date,
       "time": time,
       "deskription": description,
+      "kategori": kategori
     };
     print(data);
 
@@ -482,6 +484,7 @@ class _OrderState extends State<Order> {
                 ),
               ),
               Container(
+                //  height: 40,
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 child: TypeAheadFormField(
                     textFieldConfiguration: TextFieldConfiguration(
@@ -538,7 +541,7 @@ class _OrderState extends State<Order> {
                                 )
                               : null),
                       keyboardType: TextInputType.multiline,
-                      maxLines: null,
+                      //   maxLines: null,
                     ),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
@@ -549,7 +552,7 @@ class _OrderState extends State<Order> {
                       return null;
                     },
                     onSuggestionSelected: (suggestion) async {
-                      textController.text = '$suggestion';
+                      _textController.text = '$suggestion';
                       var result =
                           await LocationService().getTextSearch('$suggestion');
                       _destinationLatitude =
