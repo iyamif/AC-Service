@@ -1,0 +1,40 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+class NotificationManager {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  initializeNotifications() async {
+    var initializationSettingsAndroid = AndroidInitializationSettings(
+        'mipmap-mdpi/ic_launcer'); // Gantilah 'app_icon' dengan nama ikon aplikasi Anda
+    //   var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      //   iOS: initializationSettingsIOS
+    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  Future<void> showNotification(String title, String body, int id) async {
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'your_channel_id',
+      'your_channel_name',
+      //  'your_channel_description',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+    //  var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      //   iOS: iOSPlatformChannelSpecifics
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      id,
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: 'Default_Sound',
+    );
+  }
+}

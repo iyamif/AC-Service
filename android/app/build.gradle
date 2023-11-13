@@ -28,8 +28,13 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
+        
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+           // Flag to enable support for the new language APIs
+   
+    // Sets Java compatibility to Java 8
+   
     }
 
     kotlinOptions {
@@ -49,6 +54,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+          multiDexEnabled true
     }
 
     buildTypes {
@@ -64,4 +70,7 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+   
+}
+

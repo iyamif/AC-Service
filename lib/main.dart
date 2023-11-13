@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teknisi/services/res_client.dart';
 import 'package:teknisi/ui/beranda.dart';
+import 'package:teknisi/ui/profile/forgotpassword.dart';
 import 'package:teknisi/ui/profile/signup.dart';
 import 'package:teknisi/ui/utils.dart';
 
@@ -272,7 +273,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 25, right: 25),
                             child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const password(),
+                                    ),
+                                  );
+                                },
                                 child: const Text('Lupa Password ?')),
                           )
                         ],

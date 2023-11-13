@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -18,10 +20,25 @@ class _DashboardState extends State<Dashboard> {
   int notificationCount = 3;
   bool container = false;
 
+  // Future<void> _notification() async {
+  //   NotificationManager notificationManager = NotificationManager();
+  //   await notificationManager.initializeNotifications();
+  //   Future.delayed(Duration(seconds: 5), () {
+  //     notificationManager.showNotification(
+  //         'Alarm', 'Waktunya untuk sesuatu!', 0);
+  //   });
+  // }
+
   @override
   void initState() {
     super.initState();
     container = !container;
+    // WidgetsFlutterBinding.ensureInitialized();
+    //  _notification();
+
+    // Inisialisasi pengelola notifikasi
+
+    // Contoh menampilkan notifikasi setelah 5 detik
   }
 
   @override

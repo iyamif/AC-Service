@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teknisi/services/location_service.dart';
+import 'package:teknisi/services/res_client.dart';
 import 'package:teknisi/ui/notif.dart';
 import 'beranda.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+
+import 'package:http/http.dart' as http;
 
 class Order extends StatefulWidget {
   const Order({Key? key, required this.nama, required this.kode})
@@ -98,6 +104,9 @@ class _OrderState extends State<Order> {
   }
 
   void sendDataToApi() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String authToken = prefs.getString('token') ?? '';
+    print(authToken);
     final textValue = _textController.text;
     final detailLocation = detailController.text;
     final description = deskriptionController.text;
@@ -113,27 +122,49 @@ class _OrderState extends State<Order> {
     }
 
     final data = {
-      "tipeLocation": "Tipe ${selectedOptionIndex + 1}",
-      "currentLocation": textValue,
-      "detailLocation": detailLocation,
-      "date": date,
-      "time": time,
-      "deskription": description,
-      "kategori": kategori
+      // "order_by": "1",
+      // "teknisi_id": "1",
+      // "latitude": "0922728282",
+      // "longitude": "0182728292",
+      // "address": textValue,
+      // "service_date": date,
+      // "service_time": time,
+      // "description": description,
+      // "state": "1",
+      // "detail_address": detailLocation,
+      // "location_type": "Tipe ${selectedOptionIndex + 1}",
+      // "kategori": kategori,
+
+      "order_by": 1,
+      "teknisi_id": 12,
+      "latitude": "106.679934",
+      "longitude": "106.679934",
+      "address": "jl.test",
+      "service_date": "2023-01-01",
+      "service_time": "08:00:00",
+      "description": description,
+      "description_teknisi": "testin",
+      "state": 1,
+      "detail_address": detailLocation,
+      "location_address": "testing",
+      "location_type": "${selectedOptionIndex + 1}"
     };
-    print(data);
-
-    // final apiUrl = "URL_API_ANDA"; // Ganti dengan URL API yang sesuai
-    // final response = await http.post(Uri.parse(apiUrl),
-    //     headers: {"Content-Type": "application/json"}, body: jsonEncode(data));
-
-    // if (response.statusCode == 200) {
-    //   // Sukses mengirim data ke API
-    //   print("Data berhasil dikirim ke API");
-    // } else {
-    //   // Gagal mengirim data ke API
-    //   print("Gagal mengirim data ke API");
-    // }
+    // // print(data);
+    // var res = await ResClient().orders(data, '/order');
+    // //   print(res);
+    // var body = json.decode(res.body);
+    // print(body);
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8000/api/order'),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization':
+            'Bearer $authToken' // Tambahkan token otentikasi ke header
+      },
+      body: jsonEncode(data),
+    );
+    print(response.body);
   }
 
   TextEditingController _textController = TextEditingController();
