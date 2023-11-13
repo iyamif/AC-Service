@@ -29,10 +29,20 @@ class _DashboardState extends State<Dashboard> {
   //   });
   // }
 
+  Future<void> fetchData() async {
+    var data = 'acc';
+    if (data != '') {
+      container = !container;
+    }
+    print(data);
+  }
+
   @override
   void initState() {
     super.initState();
-    container = !container;
+
+    fetchData();
+
     // WidgetsFlutterBinding.ensureInitialized();
     //  _notification();
 
@@ -160,147 +170,164 @@ class _DashboardState extends State<Dashboard> {
                     //   color: const Color.fromARGB(255, 220, 220, 220),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    width: screenWidth * 0.9,
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      'Status Order',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                Visibility(
+                  visible: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      width: screenWidth * 0.9,
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        'Status Order',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, left: 8, right: 8, bottom: 4),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      //   border: Border.all(width: 1.0),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(
-                              255, 240, 237, 237), // Warna bayangan
-                          offset: Offset(0,
-                              1), // Perpindahan bayangan horizontal dan vertikal
-                          blurRadius: 3, // Radius blur bayangan
-                          spreadRadius: 1, // Sebaran bayangan
-                        ),
-                      ],
-                    ),
-                    child: container
-                        ? CupertinoButton(
-                            onPressed: () {
-                              showBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: 200,
-                                      color: Colors.white,
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            const Text('Modal BottomSheet'),
-                                            ElevatedButton(
-                                              child: const Text(
-                                                  'Close BottomSheet'),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // const Icon(
-                                //   Icons.person,
-                                //   size: 70,
-                                //   color: Color.fromARGB(255, 6, 3, 147),
-                                // ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  width: 260,
-                                  //   color: Colors.amber,
-                                  child: const Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 260,
-                                        child: Text(
-                                          'PT. AVALOGIX JAKARTA',
-                                          style: TextStyle(
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 260,
-                                        child: Text(
-                                          'Maintenance Service :',
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 150, 150, 150),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 260,
-                                        child: Text(
-                                          '20 Januari 2023',
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 6, 3, 147),
+                Visibility(
+                  visible: false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8, left: 8, right: 8, bottom: 4),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        //   border: Border.all(width: 1.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(
+                                255, 240, 237, 237), // Warna bayangan
+                            offset: Offset(0,
+                                1), // Perpindahan bayangan horizontal dan vertikal
+                            blurRadius: 3, // Radius blur bayangan
+                            spreadRadius: 1, // Sebaran bayangan
+                          ),
+                        ],
+                      ),
+                      child: container
+                          ? CupertinoButton(
+                              onPressed: () {
+                                showBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 200,
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              const Text('Modal BottomSheet'),
+                                              ElevatedButton(
+                                                child: const Text(
+                                                    'Close BottomSheet'),
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      );
+                                    });
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // const Icon(
+                                  //   Icons.person,
+                                  //   size: 70,
+                                  //   color: Color.fromARGB(255, 6, 3, 147),
+                                  // ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    width: 260,
+                                    //   color: Colors.amber,
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 260,
+                                          child: Text(
+                                            'PT. AVALOGIX JAKARTA',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 260,
+                                          child: Text(
+                                            'Maintenance Service :',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 150, 150, 150),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 260,
+                                          child: Text(
+                                            '20 Januari 2023',
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 6, 3, 147),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                CircularPercentIndicator(
-                                  radius: 35,
-                                  lineWidth: 13,
-                                  percent: 0.6,
-                                  progressColor:
-                                      const Color.fromARGB(255, 6, 3, 147),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 220, 220, 220),
-                                  circularStrokeCap: CircularStrokeCap.round,
-                                  center: const Text(
-                                    '60 Hari',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
+                                  CircularPercentIndicator(
+                                    radius: 35,
+                                    lineWidth: 13,
+                                    percent: 0.6,
+                                    progressColor:
+                                        const Color.fromARGB(255, 6, 3, 147),
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 220, 220, 220),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    center: const Text(
+                                      '60 Hari',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                            )
+                          : CupertinoButton(
+                              onPressed: () {},
+                              child: const Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SpinKitCircle(
+                                    size: 50,
+                                    color: Color.fromARGB(255, 157, 1, 58),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      'Menunggu konfirmasi teknisi',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 10),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          )
-                        : CupertinoButton(
-                            onPressed: () {},
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SpinKitCircle(
-                                  size: 50,
-                                  color: Color.fromARGB(255, 157, 1, 58),
-                                  duration: Duration(seconds: 1000),
-                                ),
-                              ],
-                            ),
-                          ),
+                    ),
                   ),
                 ),
                 Padding(
