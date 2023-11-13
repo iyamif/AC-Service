@@ -38,9 +38,8 @@ class ResClient {
         body: convert.jsonEncode(data), headers: _setHeaders(token));
   }
 
-  getData(data, apiUrl, token) async {
+  getOrders(apiUrl, token) async {
     var fullUrl = _url + apiUrl;
-    return await http.post(Uri.parse(fullUrl),
-        body: convert.jsonEncode(data), headers: _setHeaders(token));
+    return await http.get(Uri.parse(fullUrl), headers: _setHeaders(token));
   }
 }

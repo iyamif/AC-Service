@@ -1,13 +1,16 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:teknisi/services/res_client.dart';
 import 'package:teknisi/ui/history.dart';
 import 'package:teknisi/ui/order.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -19,6 +22,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int notificationCount = 3;
   bool container = false;
+  bool visible = false;
+  String? namaTeknisi;
 
   // Future<void> _notification() async {
   //   NotificationManager notificationManager = NotificationManager();
@@ -30,11 +35,33 @@ class _DashboardState extends State<Dashboard> {
   // }
 
   Future<void> fetchData() async {
-    var data = 'acc';
-    if (data != '') {
-      container = !container;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token') ?? '';
+
+    var res = await ResClient().getOrders('/get-order', token);
+    var body = json.decode(res.body);
+
+    if (body['data'] != null) {
+      var state = json.encode(body['data']['state']);
+      if (state == '1') {
+        namaTeknisi = json.encode(body['data']['teknisi']);
+        setState(() {
+          container = container;
+        });
+      } else if (state == '2') {
+        setState(() {
+          container = !container;
+        });
+      }
+      setState(() {
+        visible = !visible;
+      });
+    } else {
+      setState(() {
+        visible = visible;
+      });
     }
-    print(data);
+    // print(data);
   }
 
   @override
@@ -171,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 Visibility(
-                  visible: false,
+                  visible: visible,
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Container(
@@ -186,7 +213,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 Visibility(
-                  visible: false,
+                  visible: visible,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         top: 8, left: 8, right: 8, bottom: 4),
@@ -254,7 +281,7 @@ class _DashboardState extends State<Dashboard> {
                                         SizedBox(
                                           width: 260,
                                           child: Text(
-                                            'PT. AVALOGIX JAKARTA',
+                                            'PT AVALOGIX MITRA SOLUTION',
                                             style: TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 0, 0, 0),
