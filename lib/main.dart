@@ -399,7 +399,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (body["status"]) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', json.encode(body['token']));
+      localStorage.setString('token', body['token']);
       localStorage.setString('id', json.encode(body['data']['id']));
       localStorage.setString(
           'teknisiId', json.encode(body['data']['referal_code']));
