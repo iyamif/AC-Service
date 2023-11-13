@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +10,6 @@ import 'beranda.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-
-import 'package:http/http.dart' as http;
 
 class Order extends StatefulWidget {
   const Order({Key? key, required this.nama, required this.kode})
@@ -106,7 +103,6 @@ class _OrderState extends State<Order> {
   void sendDataToApi() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authToken = prefs.getString('token') ?? '';
-    print(authToken);
     final textValue = _textController.text;
     final detailLocation = detailController.text;
     final description = deskriptionController.text;
@@ -116,8 +112,6 @@ class _OrderState extends State<Order> {
     final selectedOptionIndex = isSelected.indexWhere((element) => element);
 
     if (selectedOptionIndex == -1) {
-      // Tidak ada opsi yang dipilih
-      print("Pilih salah satu opsi");
       return;
     }
 
@@ -149,22 +143,16 @@ class _OrderState extends State<Order> {
       "location_address": "testing",
       "location_type": "${selectedOptionIndex + 1}"
     };
-    // // print(data);
-    // var res = await ResClient().orders(data, '/order');
-    // //   print(res);
-    // var body = json.decode(res.body);
-    // print(body);
-    final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/api/order'),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization':
-            'Bearer $authToken' // Tambahkan token otentikasi ke header
-      },
-      body: jsonEncode(data),
-    );
-    print(response.body);
+    var res = await ResClient().orders(data, '/order', authToken);
+    var body = json.decode(res.body);
+
+    if (body["status"]) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Beranda()),
+      );
+    }
   }
 
   TextEditingController _textController = TextEditingController();
