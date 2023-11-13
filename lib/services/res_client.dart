@@ -8,7 +8,7 @@ class ResClient {
   var token;
 
   //untuk header di setiap function web services
-  _setHeaders(token) => <String, String>{
+  _setHeaders(token) => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
@@ -32,16 +32,9 @@ class ResClient {
   }
 
   //ws untuk post orders
-  orders(apiUrl, token) async {
+  orders(data, apiUrl, token) async {
     var fullUrl = _url + apiUrl;
-    return await http.post(
-      Uri.parse(fullUrl),
-      headers: <String, String>{
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token' // Tambahkan token otentikasi ke header
-      },
-      //   body: convert.jsonEncode(data),
-    );
+    return await http.post(Uri.parse(fullUrl),
+        body: convert.jsonEncode(data), headers: _setHeaders(token));
   }
 }
