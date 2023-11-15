@@ -43,6 +43,7 @@ class _DashboardState extends State<Dashboard> {
 
     if (body['data'] != null) {
       var state = json.encode(body['data']['state']);
+
       if (state == '1') {
         namaTeknisi = json.encode(body['data']['teknisi']);
         setState(() {

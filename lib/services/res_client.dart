@@ -42,4 +42,16 @@ class ResClient {
     var fullUrl = _url + apiUrl;
     return await http.get(Uri.parse(fullUrl), headers: _setHeaders(token));
   }
+
+  emailVerification(apiUrl, data) async {
+    var fullUrl = _url + apiUrl;
+    return await http.post(Uri.parse(fullUrl),
+        body: convert.jsonEncode(data), headers: _setHeaders(token));
+  }
+
+  reset(apiUrl, data) async {
+    var fullUrl = _url + apiUrl;
+    return await http.post(Uri.parse(fullUrl),
+        body: convert.jsonEncode(data), headers: _setHeaders(token));
+  }
 }

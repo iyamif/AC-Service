@@ -305,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: (isLoading)
                                   ? SizedBox(
-                                      width: 16,
+                                      // width: 16,
                                       height: 16,
                                       child: CircularProgressIndicator(
                                         color: Theme.of(context).primaryColor,
