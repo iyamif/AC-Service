@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:teknisi/main.dart';
 import 'package:teknisi/services/res_client.dart';
-import 'package:teknisi/ui/profile/reset.dart';
 
 class password extends StatefulWidget {
   const password({super.key});
@@ -57,11 +56,29 @@ class _passwordState extends State<password> {
     };
     var res = await ResClient().reset('/reset', data);
     var body = json.decode(res.body);
+
     if (body['status']) {
       Future.delayed(Duration(seconds: 2), () {
         setState(() {
           isLoading = false;
+          final snackBar = SnackBar(
+            content: Text('Password berhasil di update !'),
+            // backgroundColor: (Colors.white24),
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: '',
+              onPressed: () {},
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const MyHomePage(
+                    title: 'teknisi',
+                  )),
+        );
       });
     }
   }
@@ -128,6 +145,21 @@ class _passwordState extends State<password> {
                         ),
                         TextFormField(
                           controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return '* wajib diisi';
+                            }
+                            bool emailValid = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value);
+
+                            if (!emailValid) {
+                              return 'Alamat email tidak sah.';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
