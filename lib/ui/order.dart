@@ -103,6 +103,9 @@ class _OrderState extends State<Order> {
   void sendDataToApi() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authToken = prefs.getString('token') ?? '';
+    String orderBy = prefs.getString('id') ?? '';
+    String teknisiId = prefs.getString('teknisiId') ?? '';
+    int angka = int.tryParse(teknisiId) ?? 0;
     final textValue = _textController.text;
     final detailLocation = detailController.text;
     final description = deskriptionController.text;
@@ -129,23 +132,23 @@ class _OrderState extends State<Order> {
       // "location_type": "Tipe ${selectedOptionIndex + 1}",
       // "kategori": kategori,
 
-      "order_by": 1,
-      "teknisi_id": 12,
+      "order_by": 6,
+      "teknisi_id": angka,
       "latitude": "106.679934",
       "longitude": "106.679934",
-      "address": "jl.test",
+      "address": textValue,
       "service_date": "2023-01-01",
       "service_time": "08:00:00",
       "description": description,
       "description_teknisi": "testin",
       "state": 1,
       "detail_address": detailLocation,
-      "location_address": "testing",
+      "location_address": textValue,
       "location_type": "${selectedOptionIndex + 1}"
     };
     var res = await ResClient().orders(data, '/order', authToken);
     var body = json.decode(res.body);
-
+    print(body);
     if (body["status"]) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(

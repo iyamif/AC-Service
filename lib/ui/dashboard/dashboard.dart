@@ -24,6 +24,7 @@ class _DashboardState extends State<Dashboard> {
   bool container = false;
   bool visible = false;
   String? namaTeknisi;
+  String nama = "user";
 
   // Future<void> _notification() async {
   //   NotificationManager notificationManager = NotificationManager();
@@ -36,10 +37,16 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      String namas = prefs.getString('name') ?? 'user';
+      nama = namas.replaceAll('"', '');
+      //   print(nama);
+    });
     String token = prefs.getString('token') ?? '';
 
     var res = await ResClient().getOrders('/get-order', token);
     var body = json.decode(res.body);
+    print(body['data']);
 
     if (body['data'] != null) {
       var state = json.encode(body['data']['state']);
@@ -101,54 +108,44 @@ class _DashboardState extends State<Dashboard> {
             width: screenWidth,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: screenWidth * 0.13,
-                      //  decoration: BoxDecoration(border: Border.all()),
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.grey,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        // color: Colors.amber,
+                        alignment: Alignment.centerLeft,
+                        width: screenWidth * 0.1,
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.grey,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                        width: screenWidth * 0.6,
-                        //  decoration: BoxDecoration(border: Border.all()),
-                        child: const Text(
-                          'HI, Iyamif !',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    // IconButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => const History(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   icon: const Icon(
-                    //     Icons.notifications_none_rounded,
-                    //     color: Color.fromARGB(255, 9, 31, 110),
-                    //     size: 30,
-                    //   ),
-                    // ),
-                    ToggleBadgeNotification(
-                      icon: const Icon(
-                        Icons.notifications_outlined,
-                        size: 30,
+                      SizedBox(
+                          width: screenWidth * 0.75,
+                          child: Text(
+                            nama,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )),
+                      ToggleBadgeNotification(
+                        icon: const Icon(
+                          Icons.notifications_outlined,
+                          size: 30,
+                        ),
+                        badgeCount: notificationCount,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const History(),
+                            ),
+                          );
+                        },
                       ),
-                      badgeCount: notificationCount,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const History(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
@@ -201,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                 Visibility(
                   visible: visible,
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.only(right: 4, left: 4),
                     child: Container(
                       width: screenWidth * 0.9,
                       alignment: Alignment.centerLeft,
@@ -217,7 +214,7 @@ class _DashboardState extends State<Dashboard> {
                   visible: visible,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 8, left: 8, right: 8, bottom: 4),
+                        top: 8, left: 15, right: 15, bottom: 4),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -342,7 +339,7 @@ class _DashboardState extends State<Dashboard> {
                                   SpinKitCircle(
                                     size: 50,
                                     color: Color.fromARGB(255, 157, 1, 58),
-                                    duration: Duration(seconds: 2),
+                                    duration: Duration(hours: 2),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(top: 10),

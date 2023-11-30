@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1067581723602",
+    "project_id": "teknisiac-2ee16",
+    "storage_bucket": "teknisiac-2ee16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067581723602:android:1e95758c57a1ba8aae2e0b",
+        "android_client_info": {
+          "package_name": "com.example.teknisi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSDyTmg-pg7bpJHnHAzJLmHZm7U-TEyD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

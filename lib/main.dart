@@ -1,36 +1,163 @@
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teknisi/services/ForGroundLocalNotification.dart';
+import 'package:teknisi/services/fcm_service.dart';
 import 'package:teknisi/services/res_client.dart';
 import 'package:teknisi/ui/beranda.dart';
+import 'package:teknisi/ui/teknisi/beranda_teknisi.dart';
 import 'package:teknisi/ui/profile/forgotpassword.dart';
 import 'package:teknisi/ui/profile/signup.dart';
+import 'package:teknisi/ui/teknisi/history_teknisi.dart';
 import 'package:teknisi/ui/utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-void main() async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message');
+}
+
+/// Create a [AndroidNotificationChannel] for heads up notifications
+AndroidNotificationChannel? channel;
+
+bool isFlutterLocalNotificationsInitialized = false;
+late final FirebaseMessaging _messaging;
+
+/// Initialize the [FlutterLocalNotificationsPlugin] package.
+FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences localStorage = await SharedPreferences.getInstance();
-  var token = localStorage.getString('token');
+  // await Firebase.initializeApp()
+  await FirebaseMessagingService.initialize();
+  _firebaseMessagingBackgroundHandler;
+  _messaging = FirebaseMessaging.instance;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // await Permission.locationAlways.request();
 
-  runApp(
-    MaterialApp(
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
+
+  if (!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description:
+          'This channel is used for important notifications.', // description
+      importance: Importance.high,
+    );
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin!
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel!);
+
+    /// Update the iOS foreground notification presentation options to allow
+    /// heads up notifications.
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    isFlutterLocalNotificationsInitialized = true;
+  }
+  // await FirebaseMessaging.instance.subscribeToTopic('beritas');
+
+  runApp(const MyApp());
+}
+
+Future<String?> _getToken() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('token');
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    LocalNotification.initialize();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      LocalNotification.showNotification(message);
+      //  print("Received message: ${message.notification?.title}");
+      // Tambahkan logika untuk menampilkan notifikasi sesuai kebutuhan.
+
+      // Jika notifikasi diklik, buka halaman yang sesuai.
+      // Misalnya, kita membuka halaman 'DetailPage'.
+    });
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: token == null
-          ? const MyHomePage(
-              title: 'Teknisi',
-            )
-          : const Beranda(),
-      locale: const Locale('en', 'US'), // Set locale to ensure 24-hour format
-    ),
-  );
+      //   home: const SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/home': (context) => const Beranda(),
+        '/order': (context) => const Beranda(),
+        '/login': (context) => const MyHomePage(
+              title: 'teknisi',
+            ),
+      },
+      // Set locale to ensure 24-hour format
+    );
+  }
+}
 
-  // runApp(const MyApp());
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkTokenAndNavigate();
+  }
+
+  Future<void> _checkTokenAndNavigate() async {
+    String? token = await _getToken();
+    String initialRoute = token != null ? '/home' : '/login';
+
+    // Navigasi ke layar sesuai dengan token
+    Navigator.of(context).pushReplacementNamed(initialRoute);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
 }
 
 // class MyApp extends StatelessWidget {
@@ -401,14 +528,22 @@ class _MyHomePageState extends State<MyHomePage> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
       localStorage.setString('id', json.encode(body['data']['id']));
+      localStorage.setString('name', jsonEncode(body['data']['name']));
       localStorage.setString(
           'teknisiId', json.encode(body['data']['referal_code']));
 
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Beranda()),
-      );
+      if (body['data']['code'] != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BerandaTeknisi()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Beranda()),
+        );
+      }
     } else {
       var messageError = 'Cek Kembali Email / Password Anda';
       showMsg(messageError);
