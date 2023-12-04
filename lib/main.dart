@@ -18,12 +18,13 @@ import 'package:teknisi/ui/utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print('Handling a background message');
+  // await Firebase.initializeApp();
 }
 
 /// Create a [AndroidNotificationChannel] for heads up notifications
 AndroidNotificationChannel? channel;
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 bool isFlutterLocalNotificationsInitialized = false;
 late final FirebaseMessaging _messaging;
@@ -31,7 +32,8 @@ late final FirebaseMessaging _messaging;
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
-Future<void> main() async {
+void main() async {
+//  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp()
   await FirebaseMessagingService.initialize();
@@ -82,7 +84,7 @@ Future<void> main() async {
     );
     isFlutterLocalNotificationsInitialized = true;
   }
-  // await FirebaseMessaging.instance.subscribeToTopic('beritas');
+  await FirebaseMessaging.instance.subscribeToTopic('berita');
 
   runApp(const MyApp());
 }
@@ -101,15 +103,11 @@ class MyApp extends StatelessWidget {
     LocalNotification.initialize();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       LocalNotification.showNotification(message);
-      //  print("Received message: ${message.notification?.title}");
-      // Tambahkan logika untuk menampilkan notifikasi sesuai kebutuhan.
-
-      // Jika notifikasi diklik, buka halaman yang sesuai.
-      // Misalnya, kita membuka halaman 'DetailPage'.
     });
+
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -118,7 +116,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/home': (context) => const Beranda(),
-        '/order': (context) => const Beranda(),
+        '/order': (context) => const historyTeknisi(),
         '/login': (context) => const MyHomePage(
               title: 'teknisi',
             ),
@@ -140,6 +138,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _checkTokenAndNavigate();
+    //  setupInteractedMessage();
   }
 
   Future<void> _checkTokenAndNavigate() async {
@@ -192,6 +191,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setupInteractedMessage();
+  }
+
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    Navigator.pushNamed(
+      context,
+      '/order',
+      //  arguments: ChatArguments(message),
+    );
+  }
+
   bool isLoading = false;
   bool showPassword = false;
 
