@@ -10,6 +10,7 @@ import 'beranda.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class Order extends StatefulWidget {
   const Order({Key? key, required this.nama, required this.kode})
@@ -100,7 +101,7 @@ class _OrderState extends State<Order> {
     }
   }
 
-  void sendDataToApi() async {
+  Future<void> sendDataToApi() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authToken = prefs.getString('token') ?? '';
     String orderBy = prefs.getString('id') ?? '';
@@ -148,7 +149,38 @@ class _OrderState extends State<Order> {
     };
     var res = await ResClient().orders(data, '/order', authToken);
     var body = json.decode(res.body);
-    print(body);
+    final url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+    final get_wilayah = 'berita';
+
+    // Define the data to be sent as a JSON object
+    final notif = {
+      "to": "/topics/${get_wilayah}",
+      "notification": {
+        "title": "Laporan Laka Masyarakat",
+        "body": "Telah Terjadi laka di jalan cikoko dengan kronologi korban md",
+        "icon": "icon.png"
+      },
+      "data": {"key1": "value1", "key2": "value2"}
+    };
+    final jsonData = jsonEncode(notif);
+
+    // Send the HTTP POST request
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'key=AAAA-JDUU9I:APA91bGuJ7hccBEUs2Q9oV74lAlzHrxxcjiUTZ20dTdk8W6zdJIN7QArcifUwbTQzNFMy2rsiijnqse0o5e5T8hYvl44V7Wl3cgvgHF3XW9iNGLdSfD0nyxPRMvfcgD47vZW9p2WbRM3'
+      },
+      body: jsonData,
+    );
+
+    // Handle the response
+    if (response.statusCode == 200) {
+      print('Post request successful');
+    } else {
+      print('Post request failed with status: ${response.statusCode}');
+    }
     if (body["status"]) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(

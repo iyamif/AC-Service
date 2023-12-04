@@ -46,9 +46,11 @@ class FirebaseMessagingService {
     // untuk menampilkan notifikasi secara custom
   }
 
-  static void handleNotificationClick(RemoteMessage? message) {
-    print('navigas');
-
-    navigatorKey.currentState?.pushNamed('/home', arguments: message);
+  static void handleNotificationClick(RemoteMessage? message) async {
+    Navigator.of(navigatorKey.currentContext!).push(
+      MaterialPageRoute(
+        builder: (context) => const historyTeknisi(),
+      ),
+    );
   }
 }
