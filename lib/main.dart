@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -94,6 +96,12 @@ Future<String?> _getToken() async {
   return prefs.getString('token');
 }
 
+// Future<String?> _getTeknisId() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   print(prefs.getString('teknisiId'));
+//   return prefs.getString('teknisiId');
+// }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -117,6 +125,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/home': (context) => const Beranda(),
         '/order': (context) => const historyTeknisi(),
+        '/home_teknisi': (context) => const BerandaTeknisi(),
         '/login': (context) => const MyHomePage(
               title: 'teknisi',
             ),
@@ -134,6 +143,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  String teknis = '';
   @override
   void initState() {
     super.initState();
@@ -142,18 +152,54 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkTokenAndNavigate() async {
-    String? token = await _getToken();
-    String initialRoute = token != null ? '/home' : '/login';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    String teknisiId = prefs.getString('code') ?? '';
+    teknis = teknisiId.replaceAll('"', '');
 
+    print(teknis);
+
+    if (teknis == 'TEKNISI' && token != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BerandaTeknisi()),
+      );
+    } else if (token != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Beranda()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MyHomePage(
+                  title: 'teknisi',
+                )),
+      );
+    }
+    // String? token = await _getToken();
+    // String? teknisId = await _getTeknisId();
+    // String initialRoute;
+
+    // if (token != null) {
+    //   initialRoute = teknisId != null ? '/home_teknisi' : '/home';
+    // } else {
+    //   initialRoute = '/login';
+    // }
+
+    //  String Route = ;
     // Navigasi ke layar sesuai dengan token
-    Navigator.of(context).pushReplacementNamed(initialRoute);
+    //  Navigator.of(context).pushReplacementNamed(initialRoute);
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          strokeWidth: 10.0,
+        ),
       ),
     );
   }
@@ -193,25 +239,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setupInteractedMessage();
   }
 
   Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
@@ -559,11 +597,10 @@ class _MyHomePageState extends State<MyHomePage> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
       localStorage.setString('id', json.encode(body['data']['id']));
-      localStorage.setString('name', jsonEncode(body['data']['name']));
-      localStorage.setString(
-          'teknisiId', json.encode(body['data']['referal_code']));
+      localStorage.setString('name', json.encode(body['data']['name']));
+      localStorage.setString('code', json.encode(body['data']['code']));
+      //   localStorage.setString('teknisiId', jsonEncode(body['data']['code']));
 
-      // ignore: use_build_context_synchronously
       if (body['data']['code'] != null) {
         Navigator.pushReplacement(
           context,

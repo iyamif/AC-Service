@@ -446,6 +446,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
+    prefs.remove('code');
     // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
       context,

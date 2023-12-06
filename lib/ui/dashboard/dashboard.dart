@@ -25,6 +25,7 @@ class _DashboardState extends State<Dashboard> {
   bool visible = false;
   String? namaTeknisi;
   String nama = "user";
+  String code = "code";
 
   // Future<void> _notification() async {
   //   NotificationManager notificationManager = NotificationManager();
@@ -39,7 +40,10 @@ class _DashboardState extends State<Dashboard> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       String namas = prefs.getString('name') ?? 'user';
+      String codes = prefs.getString('code') ?? 'code';
       nama = namas.replaceAll('"', '');
+      code = codes.replaceAll('"', '');
+
       //   print(nama);
     });
     String token = prefs.getString('token') ?? '';
